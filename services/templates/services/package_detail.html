@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ package.name }} | MILK STUDIO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Inter', sans-serif;
+        background: #fdfcf8;
+        color: #2c2c2c;
+      }
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: rgba(253, 252, 248, 0.95);
+        backdrop-filter: blur(12px);
+        z-index: 1000;
+        padding: 1rem 2rem;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      }
+      .nav-container {
+        max-width: 1280px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .logo {
+        font-size: 1.5rem;
+        font-weight: 600;
+        text-decoration: none;
+        color: #2c2c2c;
+      }
+      .logo span {
+        color: #d4a574;
+        font-weight: 300;
+      }
+      .nav-links {
+        display: flex;
+        gap: 2rem;
+        align-items: center;
+      }
+      .nav-links a {
+        text-decoration: none;
+        color: #4a4a4a;
+        font-weight: 500;
+      }
+      .nav-links a:hover {
+        color: #d4a574;
+      }
+      .mobile-menu-btn {
+        display: none;
+        font-size: 1.5rem;
+        background: none;
+        border: none;
+        cursor: pointer;
+      }
+      .main {
+        padding-top: 80px;
+        min-height: 100vh;
+      }
+      .container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+      .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #d4a574;
+        text-decoration: none;
+        margin-bottom: 2rem;
+      }
+      .package-header {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+      .package-header h1 {
+        font-size: 2.5rem;
+        font-weight: 400;
+      }
+      .package-header h1 strong {
+        font-weight: 600;
+        color: #d4a574;
+      }
+      .price {
+        font-size: 3rem;
+        font-weight: 700;
+        color: #d4a574;
+        text-align: center;
+        margin: 1rem 0;
+      }
+      .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+        margin: 2rem 0;
+      }
+      .info-item {
+        background: #f9f6f0;
+        padding: 1.5rem;
+        border-radius: 16px;
+        text-align: center;
+      }
+      .info-item i {
+        font-size: 1.5rem;
+        color: #d4a574;
+        margin-bottom: 0.5rem;
+      }
+      .description {
+        font-size: 1.1rem;
+        line-height: 1.6;
+        color: #666;
+        margin: 2rem 0;
+      }
+      .includes {
+        background: #f9f6f0;
+        padding: 2rem;
+        border-radius: 20px;
+        margin: 2rem 0;
+      }
+      .includes h3 {
+        margin-bottom: 1rem;
+      }
+      .includes ul {
+        margin-left: 1.5rem;
+      }
+      .includes li {
+        margin: 0.5rem 0;
+      }
+      .btn {
+        display: block;
+        background: #d4a574;
+        color: white;
+        text-align: center;
+        padding: 1rem;
+        border-radius: 40px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1.1rem;
+        transition: background 0.3s;
+      }
+      .btn:hover {
+        background: #b8895a;
+      }
+      .footer {
+        background: #2c2c2c;
+        color: #e5e5e5;
+        padding: 3rem 2rem 2rem;
+        margin-top: 3rem;
+      }
+      .footer-container {
+        max-width: 1280px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+      }
+      .footer-col h4 {
+        color: white;
+        margin-bottom: 1rem;
+      }
+      .footer-col p,
+      .footer-col a {
+        color: #b0b0b0;
+        text-decoration: none;
+        font-size: 0.85rem;
+        display: block;
+        margin-bottom: 0.5rem;
+      }
+      .social-links {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+      .social-links a {
+        width: 36px;
+        height: 36px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .footer-bottom {
+        text-align: center;
+        padding-top: 2rem;
+        margin-top: 2rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        font-size: 0.8rem;
+      }
+      @media (max-width: 768px) {
+        .mobile-menu-btn {
+          display: block;
+        }
+        .nav-links {
+          display: none;
+          position: absolute;
+          top: 100%;
+          left: 0;
+          right: 0;
+          background: rgba(253, 252, 248, 0.98);
+          flex-direction: column;
+          padding: 1.5rem;
+          gap: 1rem;
+        }
+        .nav-links.active {
+          display: flex;
+        }
+        .container {
+          padding: 1rem;
+        }
+        .package-header h1 {
+          font-size: 1.75rem;
+        }
+        .price {
+          font-size: 2rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar" id="navbar">
+      <div class="nav-container">
+        <a href="/" class="logo">KOR<span>STUDIO</span></a>
+        <button class="mobile-menu-btn" id="mobileMenuBtn"><i class="fas fa-bars"></i></button>
+        <div class="nav-links" id="navLinks">
+          <a href="/">Главная</a>
+          <a href="/booking/">Бронь</a>
+          <a href="/gallery/">Галерея</a>
+          <a href="/packages/">Пакеты</a>
+          <a href="/about/">О нас</a>
+          <a href="/admin/">Админка</a>
+        </div>
+      </div>
+    </nav>
+
+    <main class="main">
+      <div class="container">
+        <a href="/packages/" class="back-link"><i class="fas fa-arrow-left"></i> Все пакеты</a>
+
+        <div class="package-header">
+          <h1>{{ package.name }}</h1>
+        </div>
+
+        <div class="price">{{ package.price }} ₽</div>
+
+        <div class="info-grid">
+          <div class="info-item">
+            <i class="fas fa-clock"></i><br />{{ package.duration }}
+          </div>
+          <div class="info-item">
+            <i class="fas fa-image"></i><br />{{ package.photos_count }}
+          </div>
+        </div>
+
+        <div class="description">{{ package.description }}</div>
+
+        <div class="includes">
+          <h3><i class="fas fa-check-circle"></i> Что входит в пакет:</h3>
+          <ul>
+            {% for line in package.includes.splitlines %}
+              {% if line.strip %}
+                <li>{{ line }}</li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+
+        <a href="/booking/?package={{ package.slug }}&package_name={{ package.name }}&package_price={{ package.price }}" class="btn">Забронировать этот пакет →</a>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-container">
+        <div class="footer-col">
+          <h4>KOR STUDIO</h4><p>Премиальная фотостудия</p>
+          <p>Создаём пространство для настоящего творчества с 2026 года</p>
+        </div>
+        <div class="footer-col">
+          <h4>Контакты</h4>
+          <p>📍  г.Москва ул. Генерала Белова, дом 4</p>
+          <p>📞 +7 (111) 111-11-11</p>
+          <p>✉️ какая-топочта@gmail.com</p>
+        </div>
+        <div class="footer-col">
+          <h4>Режим работы</h4><p>Ежедневно: 10:00 – 22:00</p>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-telegram"></i></a>
+            <a href="#"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 KOROBTSOV PRODUCTION</p>
+      </div>
+    </footer>
+
+    <script>
+      const navbar = document.getElementById('navbar')
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) navbar.classList.add('scrolled')
+        else navbar.classList.remove('scrolled')
+      })
+      const mobileBtn = document.getElementById('mobileMenuBtn')
+      const navLinks = document.getElementById('navLinks')
+      if (mobileBtn && navLinks) {
+        mobileBtn.addEventListener('click', () => navLinks.classList.toggle('active'))
+        document.querySelectorAll('.nav-links a').forEach((link) => link.addEventListener('click', () => navLinks.classList.remove('active')))
+      }
+    </script>
+  </body>
+</html>

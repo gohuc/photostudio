@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Пакеты услуг | MILK STUDIO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      body {
+        font-family: 'Inter', sans-serif;
+        background: #fdfcf8;
+        color: #2c2c2c;
+        line-height: 1.5;
+      }
+      
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: rgba(253, 252, 248, 0.95);
+        backdrop-filter: blur(12px);
+        z-index: 1000;
+        padding: 1rem 2rem;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+      }
+      
+      .navbar.scrolled {
+        padding: 0.75rem 2rem;
+      }
+      
+      .nav-container {
+        max-width: 1280px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      
+      .logo {
+        font-size: 1.5rem;
+        font-weight: 600;
+        text-decoration: none;
+        color: #2c2c2c;
+      }
+      
+      .logo span {
+        color: #d4a574;
+        font-weight: 300;
+      }
+      
+      .nav-links {
+        display: flex;
+        gap: 2rem;
+        align-items: center;
+      }
+      
+      .nav-links a {
+        text-decoration: none;
+        color: #4a4a4a;
+        font-weight: 500;
+        font-size: 0.9rem;
+        transition: color 0.3s;
+      }
+      
+      .nav-links a:hover {
+        color: #d4a574;
+      }
+      
+      .nav-links .btn-outline {
+        background: transparent;
+        border: 1.5px solid #d4a574;
+        padding: 0.5rem 1.25rem;
+        border-radius: 40px;
+        color: #d4a574;
+      }
+      
+      .mobile-menu-btn {
+        display: none;
+        font-size: 1.5rem;
+        background: none;
+        border: none;
+        cursor: pointer;
+      }
+      
+      .main {
+        padding-top: 80px;
+        min-height: 100vh;
+      }
+      
+      .container {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+      
+      .page-header {
+        text-align: center;
+        margin-bottom: 3rem;
+      }
+      
+      .page-header h1 {
+        font-size: 3rem;
+        font-weight: 400;
+        letter-spacing: -0.02em;
+      }
+      
+      .page-header h1 strong {
+        font-weight: 600;
+        color: #d4a574;
+      }
+      
+      .page-header p {
+        color: #8b8b8b;
+        font-size: 1.1rem;
+      }
+      
+      /* Packages Grid */
+      .packages-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 2rem;
+        align-items: stretch;
+      }
+      
+      .package-card {
+        background: white;
+        border-radius: 24px;
+        overflow: hidden;
+        text-decoration: none;
+        color: inherit;
+        transition: all 0.4s ease;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.02);
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        min-height: 320px;
+      }
+      
+      .package-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 35px rgba(0, 0, 0, 0.08);
+        border-color: #d4a574;
+      }
+      
+      .package-header {
+        background: linear-gradient(135deg, #f9f6f0 0%, #fdfcf8 100%);
+        padding: 2rem;
+        text-align: center;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      }
+      
+      .package-header h3 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+      }
+      
+      .package-price {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: #d4a574;
+        margin-top: 0.5rem;
+      }
+      
+      .package-body {
+        padding: 1.5rem;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .package-body p {
+        color: #666;
+        margin-bottom: 1rem;
+        line-height: 1.5;
+        font-size: 0.9rem;
+        /* Фиксированная высота для описания - 3 строки */
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        min-height: 65px;
+      }
+      
+      .package-features {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        border-top: 1px solid #f0ede8;
+        padding-top: 1rem;
+        margin-top: auto;
+        margin-bottom: 1rem;
+      }
+      
+      .package-features span {
+        font-size: 0.85rem;
+        color: #d4a574;
+      }
+      
+      .package-btn {
+        display: block;
+        background: #d4a574;
+        color: white;
+        text-align: center;
+        padding: 0.75rem;
+        border-radius: 40px;
+        margin-top: 0;
+        font-weight: 600;
+        text-decoration: none;
+        transition: background 0.3s;
+        width: 100%;
+      }
+      
+      .package-btn:hover {
+        background: #b8895a;
+      }
+      .empty-state {
+        text-align: center;
+        padding: 4rem;
+        background: #f9f6f0;
+        border-radius: 24px;
+      }
+      
+      .footer {
+        background: #2c2c2c;
+        color: #e5e5e5;
+        padding: 3rem 2rem 2rem;
+        margin-top: 3rem;
+      }
+      
+      .footer-container {
+        max-width: 1280px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+      }
+      
+      .footer-col h4 {
+        color: white;
+        margin-bottom: 1rem;
+      }
+      
+      .footer-col p,
+      .footer-col a {
+        color: #b0b0b0;
+        text-decoration: none;
+        font-size: 0.85rem;
+        display: block;
+        margin-bottom: 0.5rem;
+      }
+      
+      .social-links {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+      
+      .social-links a {
+        width: 36px;
+        height: 36px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      .footer-bottom {
+        text-align: center;
+        padding-top: 2rem;
+        margin-top: 2rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        font-size: 0.8rem;
+      }
+      
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      
+      .animate-fadeUp {
+        animation: fadeUp 0.5s ease-out forwards;
+      }
+      
+      @media (max-width: 768px) {
+        .mobile-menu-btn {
+          display: block;
+        }
+        .nav-links {
+          display: none;
+          position: absolute;
+          top: 100%;
+          left: 0;
+          right: 0;
+          background: rgba(253, 252, 248, 0.98);
+          flex-direction: column;
+          padding: 1.5rem;
+          gap: 1rem;
+        }
+        .nav-links.active {
+          display: flex;
+        }
+        .container {
+          padding: 1rem;
+        }
+        .page-header h1 {
+          font-size: 2rem;
+        }
+        .packages-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar" id="navbar">
+      <div class="nav-container">
+        <a href="/" class="logo">KOR<span>STUDIO</span></a>
+        <button class="mobile-menu-btn" id="mobileMenuBtn"><i class="fas fa-bars"></i></button>
+        <div class="nav-links" id="navLinks">
+          <a href="/">Главная</a>
+          <a href="/booking/">Бронь</a>
+          <a href="/gallery/">Галерея</a>
+          <a href="/packages/">Пакеты</a>
+          <a href="/about/">О нас</a>
+          <a href="/admin/" class="btn-outline">Админка</a>
+        </div>
+      </div>
+    </nav>
+
+    <main class="main">
+      <div class="container">
+        <div class="page-header animate-fadeUp">
+          <h1>Наши <strong>пакеты</strong></h1>
+          <p>Выберите идеальный формат для вашей съёмки</p>
+        </div>
+
+        {% if packages %}
+          <div class="packages-grid">
+            {% for package in packages %}
+              <div class="package-card animate-fadeUp">
+                <div class="package-header">
+                  <h3>{{ package.name }}</h3>
+                  <div class="package-price">{{ package.price }} ₽</div>
+                </div>
+                <div class="package-body">
+                  <p>{{ package.description|truncatechars:50 }}</p>
+                  <div class="package-features">
+                    <span><i class="fas fa-clock"></i> {{ package.duration }}</span>
+                    <span><i class="fas fa-image"></i> {{ package.photos_count }}</span>
+                  </div>
+                  <a href="{% url 'package_detail' package.slug %}" class="package-btn">Подробнее →</a>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="empty-state animate-fadeUp">
+            <i class="fas fa-gift" style="font-size: 3rem; color: #D4A574;"></i>
+            <h3 style="margin-top: 1rem;">Пакеты услуг добавляются</h3>
+            <p>Скоро здесь появятся наши пакеты</p>
+          </div>
+        {% endif %}
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-container">
+        <div class="footer-col">
+          <h4>KOR STUDIO</h4><p>Премиальная фотостудия</p>
+          <p>Создаём пространство для настоящего творчества с 2026 года</p>
+        </div>
+        <div class="footer-col">
+          <h4>Контакты</h4>
+          <p>📍 г.Москва ул. Генерала Белова, дом 4</p>
+          <p>📞 +7 (111) 111-11-11</p>
+          <p>✉️ какая-топочта@gmail.com</p>
+        </div>
+        <div class="footer-col">
+          <h4>Режим работы</h4><p>Ежедневно: 10:00 – 22:00</p>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-telegram"></i></a>
+            <a href="#"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 KOROBTSOV PRODUCTION</p>
+      </div>
+    </footer>
+
+    <script>
+      const navbar = document.getElementById('navbar')
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) navbar.classList.add('scrolled')
+        else navbar.classList.remove('scrolled')
+      })
+      
+      const mobileBtn = document.getElementById('mobileMenuBtn')
+      const navLinks = document.getElementById('navLinks')
+      if (mobileBtn && navLinks) {
+        mobileBtn.addEventListener('click', () => navLinks.classList.toggle('active'))
+        document.querySelectorAll('.nav-links a').forEach((link) => {
+          link.addEventListener('click', () => navLinks.classList.remove('active'))
+        })
+      }
+    </script>
+  </body>
+</html>

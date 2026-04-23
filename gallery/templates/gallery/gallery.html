@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Галерея | MILK STUDIO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #FDFCF8;
+            color: #2C2C2C;
+            line-height: 1.5;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(253, 252, 248, 0.95);
+            backdrop-filter: blur(12px);
+            z-index: 1000;
+            padding: 1rem 2rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            padding: 0.75rem 2rem;
+            background: rgba(253, 252, 248, 0.98);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.03);
+        }
+
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            text-decoration: none;
+            color: #2C2C2C;
+        }
+
+        .logo span {
+            color: #D4A574;
+            font-weight: 300;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #4A4A4A;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #D4A574;
+        }
+
+        .nav-links .btn-outline {
+            background: transparent;
+            border: 1.5px solid #D4A574;
+            padding: 0.5rem 1.25rem;
+            border-radius: 40px;
+            color: #D4A574;
+        }
+
+        .nav-links .btn-outline:hover {
+            background: #D4A574;
+            color: white;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            font-size: 1.5rem;
+            background: none;
+            border: none;
+            color: #2C2C2C;
+            cursor: pointer;
+        }
+
+        /* Main Content */
+        .main {
+            padding-top: 80px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Hero Section */
+        .gallery-hero {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, #F9F6F0 0%, #FDFCF8 100%);
+            border-radius: 32px;
+        }
+
+        .gallery-hero h1 {
+            font-size: 3rem;
+            font-weight: 400;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.5rem;
+        }
+
+        .gallery-hero h1 strong {
+            font-weight: 600;
+            color: #D4A574;
+        }
+
+        .gallery-hero p {
+            color: #8B8B8B;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Categories Filter */
+        .categories-filter {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-bottom: 3rem;
+        }
+
+        .filter-btn {
+            background: transparent;
+            border: 1px solid #E5E5E5;
+            padding: 0.5rem 1.25rem;
+            border-radius: 40px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-btn.active {
+            background: #D4A574;
+            border-color: #D4A574;
+            color: white;
+        }
+
+        .filter-btn:hover {
+            border-color: #D4A574;
+            color: #D4A574;
+        }
+
+        /* Albums Grid */
+        .albums-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 2rem;
+        }
+
+        .album-card {
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.02);
+            opacity: 0;
+            transform: translateY(0);
+        }
+
+        .album-card.visible {
+            opacity: 1;
+        }
+
+        .album-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 35px rgba(0, 0, 0, 0.08);
+            border-color: #D4A574;
+        }
+
+        .album-cover {
+            position: relative;
+            height: 260px;
+            overflow: hidden;
+            background: #F0EDE8;
+        }
+
+        .album-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .album-card:hover .album-cover img {
+            transform: scale(1.05);
+        }
+
+        .album-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent);
+            padding: 1rem;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .album-photo-count {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(4px);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+        }
+
+        .album-info {
+            padding: 1.5rem;
+        }
+
+        .album-info h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #2C2C2C;
+        }
+
+        .album-info p {
+            color: #8B8B8B;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            margin-bottom: 1rem;
+        }
+
+        .album-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.8rem;
+            color: #D4A574;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: #F9F6F0;
+            border-radius: 32px;
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            color: #D4A574;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-state p {
+            color: #8B8B8B;
+            margin-bottom: 1.5rem;
+        }
+
+        .empty-state a {
+            color: #D4A574;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* Footer */
+        .footer {
+            background: #2C2C2C;
+            color: #E5E5E5;
+            padding: 3rem 2rem 2rem;
+            margin-top: 3rem;
+        }
+
+        .footer-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-col h4 {
+            color: white;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .footer-col p, .footer-col a {
+            color: #B0B0B0;
+            text-decoration: none;
+            font-size: 0.85rem;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-col a:hover {
+            color: #D4A574;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .social-links a:hover {
+            background: #D4A574;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.8rem;
+        }
+
+        /* Animations */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fadeUp {
+            animation: fadeUp 0.6s ease-out forwards;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(253, 252, 248, 0.98);
+                flex-direction: column;
+                padding: 1.5rem;
+                gap: 1rem;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .gallery-hero h1 {
+                font-size: 2rem;
+            }
+
+            .albums-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .album-cover {
+                height: 220px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+    <div class="nav-container">
+        <a href="/" class="logo">KOR<span>STUDIO</span></a>
+        <button class="mobile-menu-btn" id="mobileMenuBtn">
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="nav-links" id="navLinks">
+            <a href="/">Главная</a>
+            <a href="/booking/">Бронь</a>
+            <a href="/gallery/">Галерея</a>
+            <a href="/packages/">Пакеты</a>
+            <a href="/about/">О нас</a>
+            <a href="/admin/" class="btn-outline">Админка</a>
+        </div>
+    </div>
+</nav>
+
+<main class="main">
+    <div class="container">
+        <div class="gallery-hero animate-fadeUp">
+            <h1>Наши <strong>работы</strong></h1>
+            <p>Портфолио наших съёмок. Вдохновляйтесь и выбирайте свой образ!</p>
+        </div>
+
+        {% if albums %}
+        <div class="albums-grid" id="albumsGrid">
+            {% for album in albums %}
+            <a href="{% url 'gallery_album' album.slug %}" class="album-card animate-fadeUp" data-category="{{ album.category|default:'all' }}">
+                <div class="album-cover">
+                    {% if album.cover_image %}
+                        <img src="{{ album.cover_image.url }}" alt="{{ album.name }}" loading="lazy">
+                    {% else %}
+                        <img src="https://placehold.co/400x300/F0EDE8/D4A574?text={{ album.name|slice:':1' }}" alt="{{ album.name }}">
+                    {% endif %}
+                    <div class="album-overlay">
+                        <span><i class="fas fa-camera"></i> Альбом</span>
+                        <span class="album-photo-count"><i class="fas fa-images"></i> {{ album.images.count }} фото</span>
+                    </div>
+                </div>
+                <div class="album-info">
+                    <h3>{{ album.name }}</h3>
+                    <p>{{ album.description|truncatewords:20 }}</p>
+                    <div class="album-meta">
+                        <span><i class="fas fa-calendar-alt"></i> {{ album.created_at|date:"Y" }}</span>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state animate-fadeUp">
+            <i class="fas fa-images"></i>
+            <h3>Альбомов пока нет</h3>
+            <p>Фотографии и альбомы появятся здесь после добавления в админ-панели</p>
+            <a href="/admin/gallery/album/"><i class="fas fa-plus-circle"></i> Добавить альбом</a>
+        </div>
+        {% endif %}
+    </div>
+</main>
+
+<footer class="footer">
+      <div class="footer-container">
+        <div class="footer-col">
+          <h4>KOR STUDIO</h4><p>Премиальная фотостудия</p>
+          <p>Создаём пространство для настоящего творчества с 2026 года</p>
+        </div>
+        <div class="footer-col">
+          <h4>Контакты</h4>
+          <p>📍 г.Москва ул. Генерала Белова, дом 4</p>
+          <p>📞 +7 (111) 111-11-11</p>
+          <p>✉️ какая-топочта@gmail.com</p>
+        </div>
+        <div class="footer-col">
+          <h4>Режим работы</h4><p>Ежедневно: 10:00 – 22:00</p>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-telegram"></i></a>
+            <a href="#"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 KOROBTSOV PRODUCTION</p>
+      </div>
+    </footer>
+
+<script>
+    // Navbar scroll effect
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+        if (navbar) {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        }
+    });
+
+    // Mobile menu
+    const mobileBtn = document.getElementById('mobileMenuBtn');
+    const navLinks = document.getElementById('navLinks');
+    
+    if (mobileBtn && navLinks) {
+        mobileBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+            });
+        });
+    }
+
+    // Lazy animation on scroll
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px 50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.album-card').forEach(card => {
+        observer.observe(card);
+    });
+</script>
+</body>
+</html>

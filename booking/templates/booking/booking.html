@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Бронирование | MILK STUDIO</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #FDFCF8;
+            color: #2C2C2C;
+            line-height: 1.5;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(253, 252, 248, 0.95);
+            backdrop-filter: blur(12px);
+            z-index: 1000;
+            padding: 1rem 2rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            padding: 0.75rem 2rem;
+            background: rgba(253, 252, 248, 0.98);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.03);
+        }
+
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            text-decoration: none;
+            color: #2C2C2C;
+        }
+
+        .logo span {
+            color: #D4A574;
+            font-weight: 300;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #4A4A4A;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #D4A574;
+        }
+
+        .nav-links .btn-outline {
+            background: transparent;
+            border: 1.5px solid #D4A574;
+            padding: 0.5rem 1.25rem;
+            border-radius: 40px;
+            color: #D4A574;
+        }
+
+        .nav-links .btn-outline:hover {
+            background: #D4A574;
+            color: white;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            font-size: 1.5rem;
+            background: none;
+            border: none;
+            color: #2C2C2C;
+            cursor: pointer;
+        }
+
+        /* Main Content */
+        .main {
+            padding-top: 80px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Page Header */
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            font-weight: 400;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header h1 strong {
+            font-weight: 600;
+            color: #D4A574;
+        }
+
+        .page-header p {
+            color: #8B8B8B;
+            font-size: 1.1rem;
+        }
+
+        /* Selected Package Card */
+        .selected-package {
+            background: linear-gradient(135deg, #F9F6F0 0%, #FDFCF8 100%);
+            border-left: 4px solid #D4A574;
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .selected-package-info h3 {
+            font-size: 1rem;
+            color: #D4A574;
+            margin-bottom: 0.25rem;
+        }
+
+        .selected-package-info p {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .selected-package-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #D4A574;
+        }
+
+        .package-booking-desc {
+            font-size: 0.7rem;
+            color: #999;
+            margin-top: 0.25rem;
+            max-width: 250px;
+        }
+
+        /* Form Sections */
+        .form-section {
+            background: white;
+            border-radius: 24px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.02);
+            transition: all 0.3s;
+        }
+
+        .form-section:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-title i {
+            color: #D4A574;
+        }
+
+        /* Form Groups */
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: #4A4A4A;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.9rem 1rem;
+            border: 1px solid #E5E5E5;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s;
+            background: #FEFEFE;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #D4A574;
+            box-shadow: 0 0 0 3px rgba(212, 165, 116, 0.1);
+        }
+
+        .row-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        /* Booking Types */
+        .booking-types-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1rem;
+        }
+
+        .booking-type-item {
+            border: 1.5px solid #E5E5E5;
+            border-radius: 16px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: white;
+            user-select: none;
+        }
+
+        .booking-type-item:hover {
+            border-color: #D4A574;
+            background: #FEFCF9;
+        }
+
+        .booking-type-item.selected {
+            border-color: #D4A574;
+            background: linear-gradient(135deg, #FEFCF9, #FDFCF8);
+            box-shadow: 0 4px 12px rgba(212, 165, 116, 0.1);
+        }
+
+        .booking-type-info input {
+            margin-right: 0.75rem;
+            transform: scale(1.1);
+            accent-color: #D4A574;
+        }
+
+        .booking-type-info label {
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .booking-type-duration {
+            font-size: 0.75rem;
+            color: #8B8B8B;
+            margin-top: 0.25rem;
+        }
+
+        .booking-type-price {
+            font-weight: 700;
+            color: #D4A574;
+        }
+
+        /* Extra Services */
+        .services-category {
+            margin-bottom: 1.5rem;
+        }
+
+        .category-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #F0EDE8;
+            color: #4A4A4A;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 0.75rem;
+        }
+
+        .service-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 1rem;
+            background: #F9F9F9;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .service-item:hover {
+            background: #F0EDE8;
+        }
+
+        .service-item input {
+            margin-right: 0.75rem;
+            transform: scale(1.05);
+            accent-color: #D4A574;
+        }
+
+        .service-item label {
+            flex: 1;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .service-price {
+            font-weight: 600;
+            color: #D4A574;
+            font-size: 0.85rem;
+        }
+
+        /* Total Price */
+        .total-card {
+            background: linear-gradient(135deg, #2C2C2C 0%, #1A1A1A 100%);
+            border-radius: 24px;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .total-card h3 {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+        }
+
+        .total-price {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #D4A574;
+        }
+
+        .total-price small {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Submit Button */
+        .btn-submit {
+            width: 100%;
+            background: #D4A574;
+            color: white;
+            border: none;
+            padding: 1.1rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-submit:hover {
+            background: #B8895A;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(212, 165, 116, 0.3);
+        }
+
+        /* Message */
+        .message {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .message.success {
+            background: #E8F5E9;
+            color: #2E7D32;
+            border: 1px solid #A5D6A7;
+        }
+
+        .message.error {
+            background: #FFEBEE;
+            color: #C62828;
+            border: 1px solid #EF9A9A;
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 1rem;
+            color: #D4A574;
+        }
+
+        /* Footer */
+        .footer {
+            background: #2C2C2C;
+            color: #E5E5E5;
+            padding: 3rem 2rem 2rem;
+            margin-top: 3rem;
+        }
+
+        .footer-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-col h4 {
+            color: white;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .footer-col p,
+        .footer-col a {
+            color: #B0B0B0;
+            text-decoration: none;
+            font-size: 0.85rem;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-col a:hover {
+            color: #D4A574;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .social-links a:hover {
+            background: #D4A574;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.8rem;
+        }
+        .package-booking-desc {
+            font-size: 0.7rem;
+            color: #999;
+            margin-top: 0.25rem;
+            max-width: 250px;
+        }
+
+        #packagesGrid .booking-type-item {
+            cursor: pointer;
+        }
+
+        #packagesGrid .booking-type-item.selected {
+            border-color: #D4A574;
+            background: linear-gradient(135deg, #FEFCF9, #FDFCF8);
+            box-shadow: 0 4px 12px rgba(212, 165, 116, 0.1);
+        }
+
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(253, 252, 248, 0.98);
+                flex-direction: column;
+                padding: 1.5rem;
+                gap: 1rem;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .form-section {
+                padding: 1.25rem;
+            }
+
+            .row-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .total-price {
+                font-size: 2rem;
+            }
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fadeUp {
+            animation: fadeUp 0.5s ease-out forwards;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">KOR<span>STUDIO</span></a>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="nav-links" id="navLinks">
+                <a href="/">Главная</a>
+                <a href="/booking/">Бронь</a>
+                <a href="/gallery/">Галерея</a>
+                <a href="/packages/">Пакеты</a>
+                <a href="/about/">О нас</a>
+                <a href="/admin/" class="btn-outline">Админка</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main">
+        <div class="container">
+            <div class="page-header animate-fadeUp">
+                <h1>Забронировать <strong>съёмку</strong></h1>
+                <p>Заполните форму, и мы свяжемся с вами для подтверждения</p>
+            </div>
+
+            <form id="bookingForm">
+                {% csrf_token %}
+
+                <div class="form-section animate-fadeUp">
+                    <div class="section-title">
+                        <i class="fas fa-user"></i>
+                        <span>Ваши контакты</span>
+                    </div>
+                    <div class="row-2">
+                        <div class="form-group">
+                            <label>Ваше имя</label>
+                            <input type="text" id="clientName" placeholder="Александра" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Телефон</label>
+                            <input type="tel" id="clientPhone" placeholder="+7 (___) ___-__-__" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="clientEmail" placeholder="hello@example.com" required>
+                    </div>
+                </div>
+
+                <div class="form-section animate-fadeUp">
+                    <div class="section-title">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Дата и время</span>
+                    </div>
+                    <div class="row-2">
+                        <div class="form-group">
+                            <label>Дата съёмки</label>
+                            <input type="date" id="date" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Время начала</label>
+                            <select id="time" required>
+                                <option value="">Сначала выберите дату</option>
+                            </select>
+                            <div id="loadingSlots"
+                                style="display: none; font-size: 0.8rem; color: #D4A574; margin-top: 0.5rem;">
+                                <i class="fas fa-spinner fa-pulse"></i> Загрузка...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section animate-fadeUp" id="bookingTypesSection">
+                    <div class="section-title">
+                        <i class="fas fa-camera"></i>
+                        <span>Тип бронирования</span>
+                    </div>
+                    <div class="booking-types-grid" id="bookingTypes">
+                        {% for type in booking_types %}
+                        <div class="booking-type-item" data-price="{{ type.price }}" data-id="{{ type.id }}" data-duration="{{ type.duration_minutes }}">
+                            <div class="booking-type-info">
+                                <input type="radio" name="booking_type" value="{{ type.id }}" id="type_{{ type.id }}">
+                                <label for="type_{{ type.id }}">{{ type.name }}</label>
+                                <div class="booking-type-duration">⏱ {{ type.duration_minutes }} минут</div>
+                            </div>
+                            <div class="booking-type-price">{{ type.price }} ₽</div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+
+                <div class="form-section animate-fadeUp">
+                    <div class="section-title">
+                        <i class="fas fa-gem"></i>
+                        <span>Пакеты услуг</span>
+                    </div>
+                    <div class="booking-types-grid" id="packagesGrid">
+                        {% for package in packages %}
+                        <div class="booking-type-item" data-price="{{ package.price }}" data-id="{{ package.id }}" data-duration="{{ package.duration_minutes|default:120 }}" data-type="package">
+                            <div class="booking-type-info">
+                                <input type="radio" name="booking_option" value="package_{{ package.id }}" id="package_{{ package.id }}">
+                                <label for="package_{{ package.id }}">{{ package.name }}</label>
+                                <div class="booking-type-duration">⏱ {{ package.duration }} ({{ package.duration_minutes|default:120 }} мин)</div>
+                                <div class="package-booking-desc" style="font-size: 0.7rem; color: #999;">{{ package.description|truncatechars:50 }}</div>
+                            </div>
+                            <div class="booking-type-price">{{ package.price }} ₽</div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="form-section animate-fadeUp">
+                    <div class="section-title">
+                        <i class="fas fa-palette"></i>
+                        <span>Дополнительные услуги</span>
+                    </div>
+                    {% for category, services in services_by_category %}
+                    <div class="services-category">
+                        <div class="category-title">{{ category }}</div>
+                        <div class="services-grid">
+                            {% for service in services %}
+                            <div class="service-item">
+                                <input type="checkbox" class="extra-service" value="{{ service.id }}"
+                                    data-price="{{ service.price }}" id="service_{{ service.id }}">
+                                <label for="service_{{ service.id }}">{{ service.name }}</label>
+                                <span class="service-price">{{ service.price }} ₽</span>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p style="color: #8B8B8B;">Дополнительные услуги появятся здесь после добавления в админке</p>
+                    {% endfor %}
+                </div>
+
+                <div class="total-card animate-fadeUp">
+                    <h3>ИТОГОВАЯ СТОИМОСТЬ</h3>
+                    <div class="total-price">
+                        <span id="totalPrice">0</span> <small>₽</small>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit animate-fadeUp">
+                    <i class="fas fa-check-circle"></i>
+                    Забронировать
+                </button>
+            </form>
+
+            <div id="message" class="message" style="display: none;"></div>
+        </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-container">
+        <div class="footer-col">
+          <h4>KOR STUDIO</h4><p>Премиальная фотостудия</p>
+          <p>Создаём пространство для настоящего творчества с 2026 года</p>
+        </div>
+        <div class="footer-col">
+          <h4>Контакты</h4>
+          <p>📍 г.Москва ул. Генерала Белова, дом 4</p>
+          <p>📞 +7 (111) 111-11-11</p>
+          <p>✉️ какая-топочта@gmail.com</p>
+        </div>
+        <div class="footer-col">
+          <h4>Режим работы</h4><p>Ежедневно: 10:00 – 22:00</p>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-telegram"></i></a>
+            <a href="#"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 KOROBTSOV PRODUCTION</p>
+      </div>
+    </footer>
+
+   <script>
+
+    const bookingTypeRadios = document.querySelectorAll('input[name="booking_type"]');
+    const packageRadios = document.querySelectorAll('#packagesGrid input[name="booking_option"]');
+    const extraServiceCheckboxes = document.querySelectorAll('.extra-service');
+    const totalPriceSpan = document.getElementById('totalPrice');
+    const dateInput = document.getElementById('date');
+    const timeSelect = document.getElementById('time');
+    const loadingDiv = document.getElementById('loadingSlots');
+
+    // Параметры из URL (для перехода с детальной страницы пакета)
+    const urlParams = new URLSearchParams(window.location.search);
+    let urlPackageId = urlParams.get('package_id');
+    let urlPackageName = urlParams.get('package_name');
+    let urlPackagePrice = urlParams.get('package_price');
+
+    // Переменные для выбранного пакета
+    let selectedPackagePrice = 0;
+    let selectedPackageId = null;
+    let selectedPackageDuration = 120;
+    let isUrlPackageActive = false;
+
+    // Функция пересчёта итоговой цены
+    function calculateTotal() {
+        let total = 0;
+        
+        // Если выбран тип бронирования (приоритет - если выбран тип, пакет не учитывается)
+        let typeSelected = false;
+        for (let radio of bookingTypeRadios) {
+            if (radio.checked) {
+                const div = radio.closest('.booking-type-item');
+                total += parseInt(div.dataset.price) || 0;
+                typeSelected = true;
+                break;
+            }
+        }
+        
+        // Цена пакета добавляется ТОЛЬКО если не выбран тип бронирования
+        if (!typeSelected) {
+            // Пакет из URL (если активен и не сброшен)
+            if (isUrlPackageActive && urlPackagePrice) {
+                total += parseInt(urlPackagePrice) || 0;
+            }
+            
+            // Пакет из списка
+            for (let radio of packageRadios) {
+                if (radio.checked) {
+                    const div = radio.closest('.booking-type-item');
+                    total += parseInt(div.dataset.price) || 0;
+                    break;
+                }
+            }
+        }
+        
+        // Цена дополнительных услуг
+        for (let checkbox of extraServiceCheckboxes) {
+            if (checkbox.checked) {
+                total += parseInt(checkbox.dataset.price) || 0;
+            }
+        }
+        
+        if (totalPriceSpan) totalPriceSpan.textContent = total;
+    }
+
+    // Сброс выбора пакета из URL
+    function resetUrlPackage() {
+        if (isUrlPackageActive) {
+            isUrlPackageActive = false;
+            urlPackageId = null;
+            urlPackageName = null;
+            urlPackagePrice = null;
+            
+            // Снимаем подсветку с пакета в списке
+            for (let packageItem of document.querySelectorAll('#packagesGrid .booking-type-item')) {
+                packageItem.classList.remove('selected');
+            }
+            
+            calculateTotal();
+        }
+    }
+
+    // Подсветка выбранного типа бронирования
+    function updateSelectedBookingType() {
+        const items = document.querySelectorAll('#bookingTypes .booking-type-item');
+        for (let item of items) {
+            const radio = item.querySelector('input');
+            if (radio && radio.checked) {
+                item.classList.add('selected');
+            } else {
+                item.classList.remove('selected');
+            }
+        }
+    }
+
+    // Подсветка выбранного пакета
+    function updateSelectedPackage() {
+        const items = document.querySelectorAll('#packagesGrid .booking-type-item');
+        for (let item of items) {
+            const radio = item.querySelector('input');
+            if (radio && radio.checked) {
+                item.classList.add('selected');
+            } else {
+                item.classList.remove('selected');
+            }
+        }
+    }
+
+    // Если перешли по ссылке с пакетом (с детальной страницы)
+    if (urlPackageId || urlPackagePrice) {
+        console.log('Переход по ссылке с пакетом:', urlPackageName, urlPackagePrice);
+        
+        // Активируем пакет из URL
+        isUrlPackageActive = true;
+        selectedPackagePrice = parseInt(urlPackagePrice) || 0;
+        selectedPackageId = urlPackageId ? parseInt(urlPackageId) : null;
+        
+        // Находим и отмечаем чекбокс соответствующего пакета в списке
+        if (urlPackageName) {
+            for (let packageItem of document.querySelectorAll('#packagesGrid .booking-type-item')) {
+                const label = packageItem.querySelector('label');
+                if (label && label.textContent.trim() === urlPackageName) {
+                    const radio = packageItem.querySelector('input');
+                    if (radio) {
+                        radio.checked = true;
+                        packageItem.classList.add('selected');
+                    }
+                }
+            }
+        }
+        
+        // Снимаем выбор со всех типов бронирования
+        for (let radio of bookingTypeRadios) {
+            radio.checked = false;
+        }
+        updateSelectedBookingType();
+    }
+
+    // Загрузка доступных слотов
+        async function loadAvailableSlots() {
+        if (!dateInput) return;
+        
+        const selectedDate = dateInput.value;
+        
+        if (!selectedDate) {
+            if (timeSelect) timeSelect.innerHTML = '<option value="">Сначала выберите дату</option>';
+            return;
+        }
+        
+        if (loadingDiv) loadingDiv.style.display = 'block';
+        if (timeSelect) {
+            timeSelect.innerHTML = '<option value="">Загрузка...</option>';
+            timeSelect.disabled = true;
+        }
+        
+        try {
+            const response = await fetch(`/booking/get-available-slots/?date=${selectedDate}`);
+            const data = await response.json();
+            
+            console.log('Получены слоты от сервера:', data);
+            
+            if (timeSelect) {
+                timeSelect.innerHTML = '<option value="">Выберите время</option>';
+                
+                if (data.slots && data.slots.length > 0) {
+                    // Получаем текущее время для фильтрации на клиенте
+                    const now = new Date();
+                    const selectedDateObj = new Date(selectedDate);
+                    const today = new Date();
+                    const isToday = selectedDateObj.toDateString() === today.toDateString();
+                    
+                    let availableCount = 0;
+                    
+                    for (let slot of data.slots) {
+                        // Фильтрация прошедших слотов для сегодняшнего дня
+                        if (isToday) {
+                            const slotHour = parseInt(slot.split(':')[0]);
+                            const slotMinute = parseInt(slot.split(':')[1]) || 0;
+                            const currentHour = now.getHours();
+                            const currentMinute = now.getMinutes();
+                            
+                            // Пропускаем слоты, которые уже прошли
+                            if (slotHour < currentHour || (slotHour === currentHour && slotMinute < currentMinute)) {
+                                console.log(`Пропущен прошедший слот: ${slot}`);
+                                continue;
+                            }
+                        }
+                        
+                        const option = document.createElement('option');
+                        option.value = slot;
+                        option.textContent = slot;
+                        timeSelect.appendChild(option);
+                        availableCount++;
+                    }
+                    
+                    if (availableCount > 0) {
+                        timeSelect.disabled = false;
+                        console.log(`Доступно ${availableCount} слотов`);
+                    } else {
+                        timeSelect.innerHTML = '<option value="">Нет свободного времени</option>';
+                        timeSelect.disabled = true;
+                    }
+                } else {
+                    timeSelect.innerHTML = '<option value="">Нет свободного времени</option>';
+                    timeSelect.disabled = true;
+                }
+            }
+        } catch (error) {
+            console.error('Ошибка загрузки слотов:', error);
+            if (timeSelect) {
+                timeSelect.innerHTML = '<option value="">Ошибка загрузки</option>';
+                timeSelect.disabled = true;
+            }
+        } finally {
+            if (loadingDiv) loadingDiv.style.display = 'none';
+        }
+    }
+
+    // Установка минимальной даты
+    const today = new Date().toISOString().split('T')[0];
+    if (dateInput) dateInput.min = today;
+
+    // Слушатели для типов бронирования
+    for (let radio of bookingTypeRadios) {
+        radio.addEventListener('change', function() {
+            if (this.checked) {
+                // Снимаем выбор со всех пакетов (и из URL, и из списка)
+                for (let pkg of packageRadios) {
+                    pkg.checked = false;
+                }
+                updateSelectedPackage();
+                selectedPackageId = null;
+                selectedPackagePrice = 0;
+                
+                // Сбрасываем пакет из URL
+                resetUrlPackage();
+            }
+            calculateTotal();
+            updateSelectedBookingType();
+        });
+    }
+
+    // Слушатели для пакетов (в списке на странице)
+    for (let radio of packageRadios) {
+        radio.addEventListener('change', function() {
+            if (this.checked) {
+                // Снимаем выбор со всех типов бронирования
+                for (let typeRadio of bookingTypeRadios) {
+                    typeRadio.checked = false;
+                }
+                updateSelectedBookingType();
+                
+                // Сбрасываем пакет из URL
+                resetUrlPackage();
+                
+                // Получаем данные пакета из списка
+                const div = this.closest('.booking-type-item');
+                selectedPackageId = div.dataset.id;
+                selectedPackagePrice = parseInt(div.dataset.price) || 0;
+                selectedPackageDuration = parseInt(div.dataset.duration) || 120;
+            } else {
+                selectedPackageId = null;
+                selectedPackagePrice = 0;
+            }
+            calculateTotal();
+            updateSelectedPackage();
+        });
+    }
+
+    // Слушатели для дополнительных услуг
+    for (let checkbox of extraServiceCheckboxes) {
+        checkbox.addEventListener('change', calculateTotal);
+    }
+
+    // Слушатель для выбора даты
+    if (dateInput) {
+        dateInput.addEventListener('change', loadAvailableSlots);
+    }
+
+    // Отправка формы
+    const bookingForm = document.getElementById('bookingForm');
+    if (bookingForm) {
+        bookingForm.addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const selectedType = document.querySelector('input[name="booking_type"]:checked');
+            const selectedPackage = document.querySelector('#packagesGrid input[name="booking_option"]:checked');
+            const selectedDate = dateInput ? dateInput.value : '';
+            const selectedTime = timeSelect ? timeSelect.value : '';
+            const clientName = document.getElementById('clientName') ? document.getElementById('clientName').value : '';
+            const clientEmail = document.getElementById('clientEmail') ? document.getElementById('clientEmail').value : '';
+            const clientPhone = document.getElementById('clientPhone') ? document.getElementById('clientPhone').value : '';
+
+            if (!clientName || !clientEmail || !clientPhone) {
+                alert('Пожалуйста, заполните все контактные данные');
+                return;
+            }
+
+            if (!selectedDate || !selectedTime) {
+                alert('Пожалуйста, выберите дату и время');
+                return;
+            }
+
+            // Определяем, что выбрано: тип бронирования или пакет
+            let finalPackageId = null;
+            let finalBookingTypeId = null;
+            
+            if (selectedType) {
+                finalBookingTypeId = selectedType.value;
+            } else if (selectedPackage) {
+                finalPackageId = selectedPackage.value.replace('package_', '');
+            } else if (isUrlPackageActive && urlPackageId) {
+                finalPackageId = urlPackageId;
+            } else {
+                alert('Пожалуйста, выберите тип бронирования или пакет');
+                return;
+            }
+
+            const selectedServices = [];
+            for (let checkbox of extraServiceCheckboxes) {
+                if (checkbox.checked) {
+                    selectedServices.push(checkbox.value);
+                }
+            }
+
+            // Получаем итоговую цену
+            let totalPrice = 0;
+            if (selectedType) {
+                const div = selectedType.closest('.booking-type-item');
+                totalPrice = parseInt(div.dataset.price) || 0;
+            } else if (selectedPackage) {
+                const div = selectedPackage.closest('.booking-type-item');
+                totalPrice = parseInt(div.dataset.price) || 0;
+            } else if (isUrlPackageActive && urlPackagePrice) {
+                totalPrice = parseInt(urlPackagePrice) || 0;
+            }
+            
+            // Добавляем дополнительные услуги
+            for (let checkbox of extraServiceCheckboxes) {
+                if (checkbox.checked) {
+                    totalPrice += parseInt(checkbox.dataset.price) || 0;
+                }
+            }
+
+            const bookingData = {
+                client_name: clientName,
+                client_email: clientEmail,
+                client_phone: clientPhone,
+                booking_type_id: finalBookingTypeId,
+                package_id: finalPackageId,
+                date: selectedDate,
+                time: selectedTime,
+                extra_services: selectedServices,
+                total_price: totalPrice
+            };
+
+            const messageDiv = document.getElementById('message');
+
+            try {
+                const response = await fetch('/booking/submit-booking/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                    },
+                    body: JSON.stringify(bookingData)
+                });
+
+                const result = await response.json();
+
+                if (messageDiv) {
+                    messageDiv.style.display = 'block';
+                    if (result.status === 'ok') {
+                        messageDiv.className = 'message success';
+                        messageDiv.innerHTML = '<i class="fas fa-check-circle"></i> ✅ Бронирование успешно создано! Мы свяжемся с вами для подтверждения.';
+                        bookingForm.reset();
+                        calculateTotal();
+                        if (dateInput && dateInput.value) {
+                            loadAvailableSlots();
+                        }
+                        setTimeout(() => {
+                            messageDiv.style.display = 'none';
+                        }, 5000);
+                    } else {
+                        messageDiv.className = 'message error';
+                        messageDiv.innerHTML = '<i class="fas fa-exclamation-circle"></i> ❌ ' + (result.error || 'Ошибка');
+                    }
+                }
+            } catch (error) {
+                console.error('Ошибка:', error);
+                if (messageDiv) {
+                    messageDiv.style.display = 'block';
+                    messageDiv.className = 'message error';
+                    messageDiv.innerHTML = '<i class="fas fa-exclamation-circle"></i> ❌ Ошибка сервера. Попробуйте позже.';
+                }
+            }
+            if (messageDiv) messageDiv.scrollIntoView({ behavior: 'smooth' });
+        });
+    }
+
+    // Начальный расчёт и подсветка
+    calculateTotal();
+    updateSelectedBookingType();
+    updateSelectedPackage();
+
+    // Navbar scroll
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+        if (navbar) {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        }
+    });
+
+    // Mobile menu
+    const mobileBtn = document.getElementById('mobileMenuBtn');
+    const navLinks = document.getElementById('navLinks');
+
+    if (mobileBtn && navLinks) {
+        mobileBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+            });
+        });
+    }
+
+    console.log('Скрипт загружен');
+    console.log('Пакет из URL:', urlPackageId, urlPackageName, urlPackagePrice);
+
+     document.querySelectorAll('#bookingTypes .booking-type-item').forEach(item => {
+        item.addEventListener('click', function(e) {
+            // Находим radio внутри этого блока
+            const radio = this.querySelector('input[type="radio"]');
+            if (radio && !radio.checked) {
+                radio.checked = true;
+                // Триггерим событие change
+                const changeEvent = new Event('change', { bubbles: true });
+                radio.dispatchEvent(changeEvent);
+            }
+        });
+    });
+    
+    // Для пакетов услуг
+    document.querySelectorAll('#packagesGrid .booking-type-item').forEach(item => {
+        item.addEventListener('click', function(e) {
+            // Находим radio внутри этого блока
+            const radio = this.querySelector('input[type="radio"]');
+            if (radio && !radio.checked) {
+                radio.checked = true;
+                // Триггерим событие change
+                const changeEvent = new Event('change', { bubbles: true });
+                radio.dispatchEvent(changeEvent);
+            }
+        });
+    });
+    
+    // Для дополнительных услуг (чекбоксы)
+    document.querySelectorAll('.service-item').forEach(item => {
+        item.addEventListener('click', function(e) {
+            // Находим checkbox внутри этого блока
+            const checkbox = this.querySelector('input[type="checkbox"]');
+            if (checkbox) {
+                checkbox.checked = !checkbox.checked;
+                // Триггерим событие change
+                const changeEvent = new Event('change', { bubbles: true });
+                checkbox.dispatchEvent(changeEvent);
+            }
+        });
+    });
+</script>
+</body>
+
+</html>

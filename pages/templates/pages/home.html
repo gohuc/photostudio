@@ -1,0 +1,918 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>MILK STUDIO | Премиальная фотостудия</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      body {
+        font-family: 'Inter', sans-serif;
+        background: #fdfcf8;
+        color: #2c2c2c;
+        line-height: 1.5;
+        scroll-behavior: smooth;
+      }
+      
+      /* Custom cursor */
+      body {
+        cursor: default;
+      }
+      
+      a,
+      button,
+      .btn,
+      .service-card,
+      .package-card,
+      .album-card {
+        cursor: pointer;
+      }
+      
+      /* Smooth scroll */
+      html {
+        scroll-behavior: smooth;
+      }
+      
+      /* Animations */
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+      
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+      
+        to {
+          opacity: 1;
+        }
+      }
+      
+      @keyframes scaleIn {
+        from {
+          opacity: 0;
+          transform: scale(0.95);
+        }
+      
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+      
+      @keyframes slideInLeft {
+        from {
+          opacity: 0;
+          transform: translateX(-40px);
+        }
+      
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+      
+      @keyframes slideInRight {
+        from {
+          opacity: 0;
+          transform: translateX(40px);
+        }
+      
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+      
+      @keyframes fadeInScale {
+        from {
+          opacity: 0;
+          transform: scale(0.95);
+        }
+      
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+      
+      .animate-fadeUp {
+        animation: fadeUp 0.8s ease-out forwards;
+      }
+      
+      .animate-fadeIn {
+        animation: fadeIn 1s ease-out forwards;
+      }
+      
+      .animate-scaleIn {
+        animation: scaleIn 0.6s ease-out forwards;
+      }
+      
+      /* Navbar */
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: rgba(253, 252, 248, 0.92);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        z-index: 1000;
+        padding: 1rem 2rem;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+      }
+      
+      .navbar.scrolled {
+        padding: 0.75rem 2rem;
+        background: rgba(253, 252, 248, 0.98);
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.03);
+      }
+      
+      .nav-container {
+        max-width: 1280px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      
+      .logo {
+        font-size: 1.5rem;
+        font-weight: 600;
+        letter-spacing: -0.02em;
+        text-decoration: none;
+        color: #2c2c2c;
+      }
+      
+      .logo span {
+        color: #d4a574;
+        font-weight: 300;
+      }
+      
+      .nav-links {
+        display: flex;
+        gap: 2.5rem;
+        align-items: center;
+      }
+      
+      .nav-links a {
+        text-decoration: none;
+        color: #4a4a4a;
+        font-weight: 500;
+        font-size: 0.95rem;
+        transition: color 0.3s;
+        letter-spacing: -0.01em;
+      }
+      
+      .nav-links a:hover {
+        color: #d4a574;
+      }
+      
+      .nav-links .btn-outline {
+        background: transparent;
+        border: 1.5px solid #d4a574;
+        padding: 0.5rem 1.25rem;
+        border-radius: 40px;
+        color: #d4a574;
+      }
+      
+      .nav-links .btn-outline:hover {
+        background: #d4a574;
+        color: white;
+      }
+      
+      .mobile-menu-btn {
+        display: none;
+        font-size: 1.5rem;
+        background: none;
+        border: none;
+        color: #2c2c2c;
+        cursor: pointer;
+      }
+      
+      /* Hero Section */
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        position: relative;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+      
+      .hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 100%;
+        background: linear-gradient(to bottom, rgba(253, 252, 248, 0.1) 0%);
+        pointer-events: none;
+      }
+      
+      .hero-content {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 0 20px;
+        position: relative;
+        z-index: 1;
+      }
+      
+      .hero-badge {
+        display: inline-block;
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(8px);
+        padding: 0.5rem 1rem;
+        border-radius: 40px;
+        font-size: 0.8rem;
+        font-weight: 500;
+        color: #d4a574;
+        margin-bottom: 1.5rem;
+        letter-spacing: 0.5px;
+      }
+      
+      .hero h1 {
+        font-size: clamp(3rem, 8vw, 5.5rem);
+        font-weight: 400;
+        color: white;
+        margin-bottom: 1rem;
+        letter-spacing: -0.02em;
+        text-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+      }
+      
+      .hero h1 strong {
+        font-weight: 600;
+      }
+      
+      .hero p {
+        font-size: 1.2rem;
+        color: rgba(255, 255, 255, 0.9);
+        margin-bottom: 2rem;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      
+      .btn-primary {
+        display: inline-block;
+        background: white;
+        color: #2c2c2c;
+        padding: 1rem 2.5rem;
+        border-radius: 40px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      }
+      
+      .btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        background: #d4a574;
+        color: white;
+      }
+      
+      /* Section styles */
+      .section {
+        padding: 5rem 2rem;
+        max-width: 1280px;
+        margin: 0 auto;
+      }
+      
+      .section-light {
+        background: #fdfcf8;
+      }
+      
+      .section-beige {
+        background: #f9f6f0;
+      }
+      
+      .section-title {
+        font-size: 2.5rem;
+        font-weight: 500;
+        letter-spacing: -0.02em;
+        text-align: center;
+        margin-bottom: 1rem;
+        color: #2c2c2c;
+      }
+      
+      .section-subtitle {
+        text-align: center;
+        color: #8b8b8b;
+        margin-bottom: 3rem;
+        font-size: 1.1rem;
+      }
+      
+      /* Features grid */
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+      }
+      
+      .feature-card {
+        background: white;
+        padding: 2rem;
+        border-radius: 24px;
+        text-align: center;
+        transition: all 0.4s ease;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.02);
+      }
+      
+      .feature-card:hover {
+        transform: translateY(-8px);
+        border-color: rgba(212, 165, 116, 0.2);
+        box-shadow: 0 20px 35px rgba(0, 0, 0, 0.05);
+      }
+      
+      .feature-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+      }
+      
+      .feature-card h3 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+      }
+      
+      .feature-card p {
+        color: #8b8b8b;
+        font-size: 0.9rem;
+      }
+      
+      /* Packages grid */
+      .packages-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+      }
+      
+      .package-card {
+        background: white;
+        border-radius: 24px;
+        overflow: hidden;
+        transition: all 0.4s ease;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        text-decoration: none;
+        color: inherit;
+        display: block;
+      }
+      
+      .package-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 25px 40px rgba(0, 0, 0, 0.08);
+        border-color: #d4a574;
+      }
+      
+      .package-header {
+        background: linear-gradient(135deg, #fdfcf8 0%, #f9f6f0 100%);
+        padding: 2rem;
+        text-align: center;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      }
+      
+      .package-header h3 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+      }
+      
+      .package-price {
+        font-size: 2rem;
+        font-weight: 600;
+        color: #d4a574;
+        margin-top: 0.5rem;
+      }
+      
+      .package-body {
+        padding: 1.5rem;
+      }
+      
+      .package-body p {
+        color: #8b8b8b;
+        margin-bottom: 0.5rem;
+        font-size: 0.9rem;
+      }
+      
+      .package-features {
+        border-top: 1px solid #f0ede8;
+        padding-top: 1rem;
+        margin-top: 1rem;
+      }
+      
+      .package-features span {
+        display: inline-block;
+        margin-right: 1rem;
+        font-size: 0.85rem;
+        color: #6b6b6b;
+      }
+      
+      /* Gallery preview */
+      .gallery-preview {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 2rem auto;
+      }
+      
+      .gallery-item {
+        position: relative;
+        display: block;
+        border-radius: 24px;
+        overflow: hidden;
+        text-decoration: none;
+        width: 100%;
+        max-width: 700px;
+        margin: 0 auto;
+        aspect-ratio: 16 / 10;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        transition: transform 0.4s ease, box-shadow 0.4s ease;
+      }
+      
+      .gallery-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      }
+      
+      .gallery-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+      }
+      
+      .gallery-item:hover img {
+        transform: scale(1.03);
+      }
+      
+      .gallery-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+        padding: 1.5rem;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+        transform: translateY(100%);
+        transition: transform 0.3s ease;
+      }
+      
+      .gallery-item:hover .gallery-overlay {
+        transform: translateY(0);
+      }
+      
+      .gallery-overlay span:first-child {
+        font-size: 1rem;
+        font-weight: 500;
+      }
+      
+      .gallery-overlay span:last-child {
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(8px);
+        padding: 0.5rem 1.25rem;
+        border-radius: 40px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+      }
+      
+      .gallery-item:hover .gallery-overlay span:last-child {
+        background: #d4a574;
+        transform: translateX(5px);
+      }
+      
+      /* Button */
+      .btn-secondary {
+        display: inline-block;
+        background: transparent;
+        border: 1.5px solid #d4a574;
+        color: #d4a574;
+        padding: 0.75rem 2rem;
+        border-radius: 40px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s;
+        text-align: center;
+      }
+      
+      .btn-secondary:hover {
+        background: #d4a574;
+        color: white;
+      }
+      
+      /* Footer */
+      .footer {
+        background: #2c2c2c;
+        color: #e5e5e5;
+        padding: 3rem 2rem 2rem;
+        margin-top: 3rem;
+      }
+      
+      .footer-container {
+        max-width: 1280px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+      }
+      
+      .footer-col h4 {
+        color: white;
+        margin-bottom: 1rem;
+        font-weight: 500;
+      }
+      
+      .footer-col p,
+      .footer-col a {
+        color: #b0b0b0;
+        text-decoration: none;
+        font-size: 0.85rem;
+        display: block;
+        margin-bottom: 0.5rem;
+        transition: color 0.3s;
+      }
+      
+      .footer-col a:hover {
+        color: #d4a574;
+      }
+      
+      .social-links {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+      
+      .social-links a {
+        width: 36px;
+        height: 36px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.3s;
+      }
+      
+      .social-links a:hover {
+        background: #d4a574;
+      }
+      
+      .footer-bottom {
+        text-align: center;
+        padding-top: 2rem;
+        margin-top: 2rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        font-size: 0.8rem;
+        color: #8b8b8b;
+      }
+      
+      /* Responsive */
+      @media (max-width: 768px) {
+        .mobile-menu-btn {
+          display: block;
+        }
+      
+        .nav-links {
+          display: none;
+          position: absolute;
+          top: 100%;
+          left: 0;
+          right: 0;
+          background: rgba(253, 252, 248, 0.98);
+          backdrop-filter: blur(12px);
+          flex-direction: column;
+          padding: 1.5rem;
+          gap: 1rem;
+          border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+      
+        .nav-links.active {
+          display: flex;
+        }
+      
+        .section {
+          padding: 3rem 1.5rem;
+        }
+      
+        .section-title {
+          font-size: 2rem;
+        }
+      
+        .gallery-item {
+          max-width: 100%;
+          margin: 0 1rem;
+        }
+      
+        .gallery-overlay {
+          padding: 1rem;
+        }
+      
+        .gallery-overlay span:first-child {
+          font-size: 0.85rem;
+        }
+      
+        .gallery-overlay span:last-child {
+          padding: 0.35rem 1rem;
+          font-size: 0.75rem;
+        }
+      
+        .hero {
+          min-height: 80vh;
+          background-position: 60% center !important;
+        }
+      
+        .hero-content {
+          padding: 0 20px;
+        }
+      
+        .hero h1 {
+          font-size: 2rem;
+        }
+      
+        .hero p {
+          font-size: 0.9rem;
+          padding: 0 10px;
+        }
+      
+        .hero-badge {
+          font-size: 0.7rem;
+        }
+      }
+      
+      @media (max-width: 480px) {
+        .hero {
+          min-height: 70vh;
+          background-position: 50% center !important;
+        }
+      
+        .hero h1 {
+          font-size: 1.5rem;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <nav class="navbar" id="navbar">
+      <div class="nav-container">
+        <a href="/" class="logo">KOR<span>STUDIO</span></a>
+        <button class="mobile-menu-btn" id="mobileMenuBtn"><i class="fas fa-bars"></i></button>
+        <div class="nav-links" id="navLinks">
+          <a href="/">Главная</a>
+          <a href="/booking/">Бронь</a>
+          <a href="/gallery/">Галерея</a>
+          <a href="/packages/">Пакеты</a>
+          <a href="/about/">О нас</a>
+          <a href="/admin/" class="btn-outline">Админка</a>
+        </div>
+      </div>
+    </nav>
+
+    <main>
+      <!-- Hero Section -->
+      <section class="hero" style="background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.15)), 
+    url('{% if hero_image and hero_image.image %}{{ hero_image.image.url }}{% else %}https://images.pexels.com/photos/2043590/pexels-photo-2043590.jpeg?auto=compress&cs=tinysrgb&w=1600{% endif %}') center/cover fixed no-repeat;">
+        <div class="hero-content animate-fadeUp">
+          <span class="hero-badge">EST. 2026</span>
+          <h1>Где свет<br /><strong>рождает искусство</strong></h1>
+          <p>Премиальная фотостудия в самом незаурядном колледже города. Пространство для творчества, где каждая деталь продумана до совершенства.</p>
+          <a href="/booking/" class="btn-primary">Забронировать студию →</a>
+        </div>
+      </section>
+
+      <!-- Features Section -->
+      <section class="section section-light">
+        <div class="section-title animate-fadeUp" style="animation-delay: 0.1s;">Пространство для творчества</div>
+        <div class="section-subtitle animate-fadeUp" style="animation-delay: 0.2s;">Всё, что нужно для идеального кадра</div>
+
+        <div class="features-grid">
+          <div class="feature-card animate-scaleIn" style="animation-delay: 0.3s;">
+            <div class="feature-icon">
+              <img src="{% static 'icons/camera.svg' %}" alt="Камера" width="60" height="60" />
+            </div>
+            <h3>Профессиональное оборудование</h3>
+            <p>Студийный свет Godox, фоны из итальянского хлопка, профессиональные объективы</p>
+          </div>
+          <div class="feature-card animate-scaleIn" style="animation-delay: 0.4s;">
+            <div class="feature-icon">
+              <img src="{% static 'icons/interier.svg' %}" alt="Интерьер" width="60" height="60" />
+            </div>
+            <h3>Интерьерные зоны</h3>
+            <p>5 уникальных локаций: лофт, минимализм, богемная гостиная, белая студия и ботанический уголок</p>
+          </div>
+          <div class="feature-card animate-scaleIn" style="animation-delay: 0.5s;">
+            <div class="feature-icon">
+              <img src="{% static 'icons/service.svg' %}" alt="Сервис" width="60" height="60" />
+            </div>
+            <h3>Премиальный сервис</h3>
+            <p>Чай/кофе, комфортная гримёрная, помощь ассистента и welcome-drink</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Packages Section -->
+      <section class="section section-beige">
+        <div class="section-title">Пакеты услуг</div>
+        <div class="section-subtitle">Выберите идеальный формат для вашей съёмки</div>
+
+        <div class="packages-grid">
+          {% for package in packages %}
+            <a href="{% url 'package_detail' package.slug %}" class="package-card animate-scaleIn">
+              <div class="package-header">
+                <h3>{{ package.name }}</h3>
+                <div class="package-price">{{ package.price }} ₽</div>
+              </div>
+              <div class="package-body">
+                <p>{{ package.description|truncatewords:15 }}</p>
+                <div class="package-features">
+                  <span>⏱ {{ package.duration }}</span>
+                  <span>📸 {{ package.photos_count }}</span>
+                </div>
+              </div>
+            </a>
+          {% empty %}
+            <p style="text-align: center; grid-column: 1/-1;">Пакеты услуг добавляются в админ-панели</p>
+          {% endfor %}
+        </div>
+      </section>
+
+      <!-- Gallery Preview -->
+      <section class="section section-light">
+        <div class="section-title">Последние работы</div>
+        <div class="section-subtitle">Вдохновение из наших съёмок</div>
+        <div class="gallery-preview" id="randomGallery">
+          <a href="/gallery/" class="gallery-item" id="galleryLink"><img id="galleryImage" src="" alt="Работы студии" /></a>
+        </div>
+        <div style="text-align: center; margin-top: 2rem;">
+          <a href="/gallery/" class="btn-secondary">Смотреть всю галерею →</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-container">
+        <div class="footer-col">
+          <h4>KOR STUDIO</h4><p>Премиальная фотостудия</p>
+          <p>Создаём пространство для настоящего творчества с 2026 года</p>
+        </div>
+        <div class="footer-col">
+          <h4>Контакты</h4>
+          <p>📍 г.Москва ул. Генерала Белова, дом 4</p>
+          <p>📞 +7 (111) 111-11-11</p>
+          <p>✉️ какая-топочта@gmail.com</p>
+        </div>
+        <div class="footer-col">
+          <h4>Режим работы</h4><p>Ежедневно: 10:00 – 22:00</p>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-telegram"></i></a>
+            <a href="#"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 KOROBTSOV PRODUCTION</p>
+      </div>
+    </footer>
+    <script>
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile menu
+        const mobileBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.getElementById('navLinks');
+
+        mobileBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Close mobile menu on link click
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        (function () {
+            const galleryImg = document.getElementById('galleryImage');
+            const galleryTitle = document.getElementById('galleryTitle');
+            const galleryLink = document.getElementById('galleryLink');
+
+            if (!galleryImg) return;
+
+            
+            let photos = [];
+            {% for photo in recent_photos %}
+            photos.push({
+                url: "{{ photo.image.url }}",
+                title: "{{ photo.title|escapejs }}",
+                link: "/gallery/"
+            });
+            {% endfor %}
+
+            // Если фото меньше 2, не запускаем слайдшоу
+            if (photos.length < 2) {
+                if (photos.length === 1) {
+                    galleryImg.src = photos[0].url;
+                    if (galleryTitle) galleryTitle.textContent = photos[0].title;
+                }
+                return;
+            }
+
+            let currentIndex = 0;
+            let interval;
+
+            // Функция плавной смены фото
+            function changePhoto() {
+                // Переходим к следующему фото
+                currentIndex = (currentIndex + 1) % photos.length;
+                const nextPhoto = photos[currentIndex];
+
+                if (!nextPhoto) return;
+
+                // Эффект плавного исчезновения/появления
+                galleryImg.style.transition = 'opacity 0.4s ease';
+                galleryImg.style.opacity = '0.5';
+
+                setTimeout(() => {
+                    galleryImg.src = nextPhoto.url;
+                    if (galleryTitle) galleryTitle.textContent = nextPhoto.title;
+                    galleryImg.style.opacity = '1';
+                }, 200);
+            }
+
+            // Запускаем слайдшоу (каждые 4 секунды)
+            function startSlideshow() {
+                if (interval) clearInterval(interval);
+                interval = setInterval(changePhoto, 4000);
+            }
+
+            // Останавливаем при наведении
+            const container = document.querySelector('.gallery-single');
+            if (container) {
+                container.addEventListener('mouseenter', () => {
+                    if (interval) clearInterval(interval);
+                });
+
+                container.addEventListener('mouseleave', startSlideshow);
+            }
+
+            // Устанавливаем первое фото
+            if (photos.length > 0) {
+                galleryImg.src = photos[0].url;
+                if (galleryTitle) galleryTitle.textContent = photos[0].title;
+            }
+
+            // Запускаем слайдшоу
+            startSlideshow();
+        })();
+    </script>
+  </body>
+</html>
