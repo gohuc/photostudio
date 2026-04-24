@@ -21,6 +21,7 @@ def booking_page(request):
         services_by_category[cat].append(service)
     
     selected_package = None
+    selected_package_price = None
     package_slug = request.GET.get('package')
     if package_slug:
         try:
@@ -34,7 +35,7 @@ def booking_page(request):
         'services_by_category': services_by_category.items(),
         'packages': packages, 
         'selected_package': selected_package, 
-        'selected_package_price': selected_package_price if selected_package else None, 
+        'selected_package_price': selected_package_price,
     }
     return render(request, 'booking/booking.html', context)
 
@@ -67,24 +68,22 @@ def submit_booking(request):
         
         duration = 60
         booking_type = None
-        is_package = False
-        package = None
+        selected_package = None
         
         if package_id:
             try:
-                package = Package.objects.get(id=package_id)
-                duration = int(package.duration_minutes) if package.duration_minutes else 120
-                is_package = True
+                selected_package = Package.objects.get(id=package_id)
+                duration = int(selected_package.duration_minutes) if selected_package.duration_minutes else 120
                 
                 booking_type, _ = BookingType.objects.get_or_create(
                     name="Пакет услуг",
                     defaults={
                         'duration_minutes': duration,
-                        'price': package.price,
+                        'price': selected_package.price,
                         'is_active': True
                     }
                 )
-                booking_type.price = package.price
+                booking_type.price = selected_package.price
                 
             except Package.DoesNotExist:
                 return JsonResponse({'status': 'error', 'error': 'Пакет не найден'})
@@ -100,18 +99,10 @@ def submit_booking(request):
         start_minutes = time_obj.hour * 60 + time_obj.minute
         end_minutes = start_minutes + duration
         
-        print(f"=== ПРОВЕРКА ПЕРЕСЕЧЕНИЯ ===")
-        print(f"Новая бронь: {time_slot} длительность {duration} мин -> {start_minutes} - {end_minutes}")
-        
         existing_bookings = Booking.objects.filter(
             date=date_obj,
             status__in=['new', 'confirmed']
         ).select_related('booking_type')
-        
-        print(f"Существующих броней: {existing_bookings.count()}")
-        
-        has_conflict = False
-        conflict_time = None
         
         for existing in existing_bookings:
             existing_start = existing.time.hour * 60 + existing.time.minute
@@ -123,27 +114,18 @@ def submit_booking(request):
             
             existing_end = existing_start + existing_duration
             
-            print(f"  Существующая: {existing.time} длительность {existing_duration} мин -> {existing_start} - {existing_end}")
-            print(f"  Проверка: {start_minutes} < {existing_end} = {start_minutes < existing_end}")
-            print(f"  Проверка: {end_minutes} > {existing_start} = {end_minutes > existing_start}")
-            
             if start_minutes < existing_end and end_minutes > existing_start:
-                has_conflict = True
-                conflict_time = existing.time.strftime('%H:%M')
-                print(f"  >>> КОНФЛИКТ с {conflict_time}!")
-                break
-        
-        if has_conflict:
-            return JsonResponse({
-                'status': 'error',
-                'error': f'Время {time_slot} пересекается с бронью в {conflict_time}'
-            })
+                return JsonResponse({
+                    'status': 'error',
+                    'error': f'Время {time_slot} пересекается с другой бронью'
+                })
         
         booking = Booking.objects.create(
             client_name=data['client_name'],
             client_email=data['client_email'],
             client_phone=data['client_phone'],
             booking_type=booking_type,
+            selected_package=selected_package,
             date=date_obj,
             time=time_obj,
             total_price=data['total_price'],
@@ -225,9 +207,8 @@ def get_available_slots(request):
                     continue
             available_slots.append(slot)
         
-        print(f"Доступные слоты для {date}: {available_slots}")
         return JsonResponse({'slots': available_slots})
         
     except Exception as e:
-        print(f"Ошибка в get_available_slots: {e}")
+        print(f"Ошибка: {e}")
         return JsonResponse({'slots': all_slots})

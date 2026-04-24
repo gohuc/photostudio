@@ -488,6 +488,21 @@
             box-shadow: 0 4px 12px rgba(212, 165, 116, 0.1);
         }
 
+        .package-more-link {
+        display: inline-block;
+        color: #D4A574;
+        font-size: 0.7rem;
+        margin-top: 4px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s;
+        }
+
+        .package-more-link:hover {
+            color: #B8895A;
+            transform: translateX(3px);
+        }
+
         @media (max-width: 768px) {
             .mobile-menu-btn {
                 display: block;
@@ -601,7 +616,18 @@
                                 <input type="radio" name="booking_option" value="package_{{ package.id }}" id="package_{{ package.id }}">
                                 <label for="package_{{ package.id }}">{{ package.name }}</label>
                                 <div class="booking-type-duration">⏱ {{ package.duration }} ({{ package.duration_minutes|default:120 }} мин)</div>
-                                <div class="package-booking-desc" style="font-size: 0.7rem; color: #999;">{{ package.description|truncatechars:50 }}</div>
+                                <div class="package-booking-desc">
+                                    {% for line in package.includes.splitlines %}
+                                        {% if line.strip and forloop.counter <= 2 %}
+                                            <div class="package-include-item">• {{ line|striptags|truncatechars:35 }}</div>
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% if package.includes.splitlines|length > 2 %}
+                                        <a href="{% url 'package_detail' package.slug %}" class="package-more-link">
+                                            + ещё {{ package.includes.splitlines|length|add:"-2" }} услуг →
+                                        </a>
+                                    {% endif %}
+                                </div>
                             </div>
                             <div class="booking-type-price">{{ package.price }}&nbsp;₽</div>
                         </div>
