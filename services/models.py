@@ -8,7 +8,7 @@ class Package(models.Model):
     duration = models.CharField(max_length=50, verbose_name="Длительность")
     duration_minutes = models.CharField(max_length=50, verbose_name='Длительность в минутах')
     photos_count = models.CharField(max_length=50, verbose_name="Количество фото")
-    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Цена")
+    price = models.DecimalField(max_digits=10, decimal_places=0, verbose_name="Цена")
     includes = models.TextField(verbose_name="Что входит (маркированный список)")
     is_active = models.BooleanField(default=True, verbose_name="Активен")
     order = models.IntegerField(default=0, verbose_name="Порядок")

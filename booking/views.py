@@ -25,6 +25,7 @@ def booking_page(request):
     if package_slug:
         try:
             selected_package = Package.objects.get(slug=package_slug, is_active=True)
+            selected_package_price = selected_package.price
         except Package.DoesNotExist:
             pass
     
@@ -32,7 +33,8 @@ def booking_page(request):
         'booking_types': booking_types,
         'services_by_category': services_by_category.items(),
         'packages': packages, 
-        'selected_package': selected_package,  
+        'selected_package': selected_package, 
+        'selected_package_price': selected_package_price if selected_package else None, 
     }
     return render(request, 'booking/booking.html', context)
 

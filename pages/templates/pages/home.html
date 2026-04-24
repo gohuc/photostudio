@@ -4,7 +4,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <title>MILK STUDIO | Премиальная фотостудия</title>
+    <title>KOR STUDIO | Премиальная фотостудия</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     <style>
@@ -413,9 +413,15 @@
       }
       
       .package-body p {
-        color: #8b8b8b;
-        margin-bottom: 0.5rem;
+        color: #666;
+        margin-bottom: 1rem;
+        line-height: 1.5;
         font-size: 0.9rem;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        min-height: 65px;
       }
       
       .package-features {
@@ -666,6 +672,11 @@
         .hero-badge {
           font-size: 0.7rem;
         }
+        .package-body p {
+        height: auto;
+        min-height: 50px;
+        -webkit-line-clamp: 2;
+        }
       }
       
       @media (max-width: 480px) {
@@ -698,7 +709,6 @@
     </nav>
 
     <main>
-      <!-- Hero Section -->
       <section class="hero" style="background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.15)), 
     url('{% if hero_image and hero_image.image %}{{ hero_image.image.url }}{% else %}https://images.pexels.com/photos/2043590/pexels-photo-2043590.jpeg?auto=compress&cs=tinysrgb&w=1600{% endif %}') center/cover fixed no-repeat;">
         <div class="hero-content animate-fadeUp">
@@ -709,7 +719,6 @@
         </div>
       </section>
 
-      <!-- Features Section -->
       <section class="section section-light">
         <div class="section-title animate-fadeUp" style="animation-delay: 0.1s;">Пространство для творчества</div>
         <div class="section-subtitle animate-fadeUp" style="animation-delay: 0.2s;">Всё, что нужно для идеального кадра</div>
@@ -739,7 +748,6 @@
         </div>
       </section>
 
-      <!-- Packages Section -->
       <section class="section section-beige">
         <div class="section-title">Пакеты услуг</div>
         <div class="section-subtitle">Выберите идеальный формат для вашей съёмки</div>
@@ -765,7 +773,6 @@
         </div>
       </section>
 
-      <!-- Gallery Preview -->
       <section class="section section-light">
         <div class="section-title">Последние работы</div>
         <div class="section-subtitle">Вдохновение из наших съёмок</div>

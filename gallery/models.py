@@ -2,7 +2,6 @@ from django.db import models
 from django.urls import reverse
 
 class Album(models.Model):
-    """Альбом для группировки фото"""
     name = models.CharField(max_length=100, verbose_name="Название альбома")
     slug = models.SlugField(unique=True, verbose_name="Ссылка (латиницей)")
     description = models.TextField(blank=True, verbose_name="Описание")
@@ -23,17 +22,16 @@ class Album(models.Model):
         return reverse('gallery_album', args=[self.slug])
 
 class GalleryImage(models.Model):
-    """Фото в галерее"""
     title = models.CharField(max_length=200, verbose_name="Название")
     album = models.ForeignKey(Album, on_delete=models.CASCADE, related_name='images', verbose_name="Альбом")
     image = models.ImageField(upload_to='gallery/', verbose_name="Фото")
     description = models.TextField(blank=True, verbose_name="Описание")
     order = models.IntegerField(default=0, verbose_name="Порядок")
     is_active = models.BooleanField(default=True, verbose_name="Активно")
-    created_at = models.DateTimeField(verbose_name='когда сделанны фотки')
+    created_at = models.DateTimeField(auto_now_add=True,verbose_name='когда сделанны фотки')
     
     class Meta:
-        ordering = ['order', 'created_at']
+        ordering = ['order']
         verbose_name = 'Фото'
         verbose_name_plural = 'Фото'
 

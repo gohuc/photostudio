@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Бронирование | MILK STUDIO</title>
+    <title>Бронирование | KOR STUDIO</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap"
         rel="stylesheet">
@@ -23,7 +23,6 @@
             line-height: 1.5;
         }
 
-        /* Navbar */
         .navbar {
             position: fixed;
             top: 0;
@@ -103,7 +102,6 @@
             cursor: pointer;
         }
 
-        /* Main Content */
         .main {
             padding-top: 80px;
             min-height: 100vh;
@@ -115,7 +113,6 @@
             padding: 2rem;
         }
 
-        /* Page Header */
         .page-header {
             text-align: center;
             margin-bottom: 3rem;
@@ -138,7 +135,6 @@
             font-size: 1.1rem;
         }
 
-        /* Selected Package Card */
         .selected-package {
             background: linear-gradient(135deg, #F9F6F0 0%, #FDFCF8 100%);
             border-left: 4px solid #D4A574;
@@ -176,7 +172,6 @@
             max-width: 250px;
         }
 
-        /* Form Sections */
         .form-section {
             background: white;
             border-radius: 24px;
@@ -204,7 +199,6 @@
             color: #D4A574;
         }
 
-        /* Form Groups */
         .form-group {
             margin-bottom: 1.25rem;
         }
@@ -242,7 +236,6 @@
             gap: 1rem;
         }
 
-        /* Booking Types */
         .booking-types-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -295,7 +288,6 @@
             color: #D4A574;
         }
 
-        /* Extra Services */
         .services-category {
             margin-bottom: 1.5rem;
         }
@@ -349,7 +341,6 @@
             font-size: 0.85rem;
         }
 
-        /* Total Price */
         .total-card {
             background: linear-gradient(135deg, #2C2C2C 0%, #1A1A1A 100%);
             border-radius: 24px;
@@ -376,7 +367,6 @@
             color: rgba(255, 255, 255, 0.5);
         }
 
-        /* Submit Button */
         .btn-submit {
             width: 100%;
             background: #D4A574;
@@ -400,7 +390,6 @@
             box-shadow: 0 8px 20px rgba(212, 165, 116, 0.3);
         }
 
-        /* Message */
         .message {
             margin-top: 1rem;
             padding: 1rem;
@@ -421,14 +410,12 @@
             border: 1px solid #EF9A9A;
         }
 
-        /* Loading */
         .loading {
             text-align: center;
             padding: 1rem;
             color: #D4A574;
         }
 
-        /* Footer */
         .footer {
             background: #2C2C2C;
             color: #E5E5E5;
@@ -490,12 +477,6 @@
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             font-size: 0.8rem;
         }
-        .package-booking-desc {
-            font-size: 0.7rem;
-            color: #999;
-            margin-top: 0.25rem;
-            max-width: 250px;
-        }
 
         #packagesGrid .booking-type-item {
             cursor: pointer;
@@ -507,13 +488,10 @@
             box-shadow: 0 4px 12px rgba(212, 165, 116, 0.1);
         }
 
-
-        /* Responsive */
         @media (max-width: 768px) {
             .mobile-menu-btn {
                 display: block;
             }
-
             .nav-links {
                 display: none;
                 position: absolute;
@@ -526,27 +504,21 @@
                 gap: 1rem;
                 border-bottom: 1px solid rgba(0, 0, 0, 0.05);
             }
-
             .nav-links.active {
                 display: flex;
             }
-
             .container {
                 padding: 1rem;
             }
-
             .form-section {
                 padding: 1.25rem;
             }
-
             .row-2 {
                 grid-template-columns: 1fr;
             }
-
             .page-header h1 {
                 font-size: 2rem;
             }
-
             .total-price {
                 font-size: 2rem;
             }
@@ -557,7 +529,6 @@
                 opacity: 0;
                 transform: translateY(20px);
             }
-
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -599,27 +570,70 @@
             <form id="bookingForm">
                 {% csrf_token %}
 
-                <div class="form-section animate-fadeUp">
+                <div class="form-section animate-fadeUp" id="bookingTypesSection">
                     <div class="section-title">
-                        <i class="fas fa-user"></i>
-                        <span>Ваши контакты</span>
+                        <i class="fas fa-camera"></i>
+                        <span>Тип бронирования</span>
                     </div>
-                    <div class="row-2">
-                        <div class="form-group">
-                            <label>Ваше имя</label>
-                            <input type="text" id="clientName" placeholder="Александра" required>
+                    <div class="booking-types-grid" id="bookingTypes">
+                        {% for type in booking_types %}
+                        <div class="booking-type-item" data-price="{{ type.price }}" data-id="{{ type.id }}" data-duration="{{ type.duration_minutes }}">
+                            <div class="booking-type-info">
+                                <input type="radio" name="booking_type" value="{{ type.id }}" id="type_{{ type.id }}">
+                                <label for="type_{{ type.id }}">{{ type.name }}</label>
+                                <div class="booking-type-duration">⏱ {{ type.duration_minutes }} минут</div>
+                            </div>
+                            <div class="booking-type-price">{{ type.price }}&nbsp;₽</div>
                         </div>
-                        <div class="form-group">
-                            <label>Телефон</label>
-                            <input type="tel" id="clientPhone" placeholder="+7 (___) ___-__-__" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" id="clientEmail" placeholder="hello@example.com" required>
+                        {% endfor %}
                     </div>
                 </div>
 
+                <div class="form-section animate-fadeUp">
+                    <div class="section-title">
+                        <i class="fas fa-gem"></i>
+                        <span>Пакеты услуг</span>
+                    </div>
+                    <div class="booking-types-grid" id="packagesGrid">
+                        {% for package in packages %}
+                        <div class="booking-type-item" data-price="{{ package.price }}" data-id="{{ package.id }}" data-duration="{{ package.duration_minutes|default:120 }}" data-type="package">
+                            <div class="booking-type-info">
+                                <input type="radio" name="booking_option" value="package_{{ package.id }}" id="package_{{ package.id }}">
+                                <label for="package_{{ package.id }}">{{ package.name }}</label>
+                                <div class="booking-type-duration">⏱ {{ package.duration }} ({{ package.duration_minutes|default:120 }} мин)</div>
+                                <div class="package-booking-desc" style="font-size: 0.7rem; color: #999;">{{ package.description|truncatechars:50 }}</div>
+                            </div>
+                            <div class="booking-type-price">{{ package.price }}&nbsp;₽</div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="form-section animate-fadeUp">
+                    <div class="section-title">
+                        <i class="fas fa-palette"></i>
+                        <span>Дополнительные услуги</span>
+                    </div>
+                    {% for category, services in services_by_category %}
+                    <div class="services-category">
+                        <div class="category-title">{{ category }}</div>
+                        <div class="services-grid">
+                            {% for service in services %}
+                            <div class="service-item">
+                                <input type="checkbox" class="extra-service" value="{{ service.id }}"
+                                    data-price="{{ service.price }}" id="service_{{ service.id }}">
+                                <label for="service_{{ service.id }}">{{ service.name }}</label>
+                                <span class="service-price">{{ service.price }}&nbsp;₽</span>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p style="color: #8B8B8B;">Дополнительные услуги появятся здесь после добавления в админке</p>
+                    {% endfor %}
+                </div>
+
+  
                 <div class="form-section animate-fadeUp">
                     <div class="section-title">
                         <i class="fas fa-calendar-alt"></i>
@@ -643,68 +657,25 @@
                     </div>
                 </div>
 
-                <div class="form-section animate-fadeUp" id="bookingTypesSection">
-                    <div class="section-title">
-                        <i class="fas fa-camera"></i>
-                        <span>Тип бронирования</span>
-                    </div>
-                    <div class="booking-types-grid" id="bookingTypes">
-                        {% for type in booking_types %}
-                        <div class="booking-type-item" data-price="{{ type.price }}" data-id="{{ type.id }}" data-duration="{{ type.duration_minutes }}">
-                            <div class="booking-type-info">
-                                <input type="radio" name="booking_type" value="{{ type.id }}" id="type_{{ type.id }}">
-                                <label for="type_{{ type.id }}">{{ type.name }}</label>
-                                <div class="booking-type-duration">⏱ {{ type.duration_minutes }} минут</div>
-                            </div>
-                            <div class="booking-type-price">{{ type.price }} ₽</div>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-
-
                 <div class="form-section animate-fadeUp">
                     <div class="section-title">
-                        <i class="fas fa-gem"></i>
-                        <span>Пакеты услуг</span>
+                        <i class="fas fa-user"></i>
+                        <span>Ваши контакты</span>
                     </div>
-                    <div class="booking-types-grid" id="packagesGrid">
-                        {% for package in packages %}
-                        <div class="booking-type-item" data-price="{{ package.price }}" data-id="{{ package.id }}" data-duration="{{ package.duration_minutes|default:120 }}" data-type="package">
-                            <div class="booking-type-info">
-                                <input type="radio" name="booking_option" value="package_{{ package.id }}" id="package_{{ package.id }}">
-                                <label for="package_{{ package.id }}">{{ package.name }}</label>
-                                <div class="booking-type-duration">⏱ {{ package.duration }} ({{ package.duration_minutes|default:120 }} мин)</div>
-                                <div class="package-booking-desc" style="font-size: 0.7rem; color: #999;">{{ package.description|truncatechars:50 }}</div>
-                            </div>
-                            <div class="booking-type-price">{{ package.price }} ₽</div>
+                    <div class="row-2">
+                        <div class="form-group">
+                            <label>Ваше имя</label>
+                            <input type="text" id="clientName" placeholder="Александра" required>
                         </div>
-                        {% endfor %}
-                    </div>
-                </div>
-
-                <div class="form-section animate-fadeUp">
-                    <div class="section-title">
-                        <i class="fas fa-palette"></i>
-                        <span>Дополнительные услуги</span>
-                    </div>
-                    {% for category, services in services_by_category %}
-                    <div class="services-category">
-                        <div class="category-title">{{ category }}</div>
-                        <div class="services-grid">
-                            {% for service in services %}
-                            <div class="service-item">
-                                <input type="checkbox" class="extra-service" value="{{ service.id }}"
-                                    data-price="{{ service.price }}" id="service_{{ service.id }}">
-                                <label for="service_{{ service.id }}">{{ service.name }}</label>
-                                <span class="service-price">{{ service.price }} ₽</span>
-                            </div>
-                            {% endfor %}
+                        <div class="form-group">
+                            <label>Телефон</label>
+                            <input type="tel" id="clientPhone" placeholder="+7 (___) ___-__-__" required>
                         </div>
                     </div>
-                    {% empty %}
-                    <p style="color: #8B8B8B;">Дополнительные услуги появятся здесь после добавления в админке</p>
-                    {% endfor %}
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="clientEmail" placeholder="hello@example.com" required>
+                    </div>
                 </div>
 
                 <div class="total-card animate-fadeUp">
@@ -725,76 +696,66 @@
     </main>
 
     <footer class="footer">
-      <div class="footer-container">
-        <div class="footer-col">
-          <h4>KOR STUDIO</h4><p>Премиальная фотостудия</p>
-          <p>Создаём пространство для настоящего творчества с 2026 года</p>
+        <div class="footer-container">
+            <div class="footer-col">
+                <h4>KOR STUDIO</h4>
+                <p>Премиальная фотостудия</p>
+                <p>Создаём пространство для настоящего творчества с 2026 года</p>
+            </div>
+            <div class="footer-col">
+                <h4>Контакты</h4>
+                <p>📍 г.Москва ул. Генерала Белова, дом 4</p>
+                <p>📞 +7 (111) 111-11-11</p>
+                <p>✉️ какая-топочта@gmail.com</p>
+            </div>
+            <div class="footer-col">
+                <h4>Режим работы</h4>
+                <p>Ежедневно: 10:00 – 22:00</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-telegram"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
         </div>
-        <div class="footer-col">
-          <h4>Контакты</h4>
-          <p>📍 г.Москва ул. Генерала Белова, дом 4</p>
-          <p>📞 +7 (111) 111-11-11</p>
-          <p>✉️ какая-топочта@gmail.com</p>
+        <div class="footer-bottom">
+            <p>© 2026 KOROBTSOV PRODUCTION</p>
         </div>
-        <div class="footer-col">
-          <h4>Режим работы</h4><p>Ежедневно: 10:00 – 22:00</p>
-          <div class="social-links">
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-telegram"></i></a>
-            <a href="#"><i class="fab fa-whatsapp"></i></a>
-          </div>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p>© 2026 KOROBTSOV PRODUCTION</p>
-      </div>
     </footer>
 
-   <script>
+    <script>
+        const bookingTypeRadios = document.querySelectorAll('input[name="booking_type"]');
+        const packageRadios = document.querySelectorAll('#packagesGrid input[name="booking_option"]');
+        const extraServiceCheckboxes = document.querySelectorAll('.extra-service');
+        const totalPriceSpan = document.getElementById('totalPrice');
+        const dateInput = document.getElementById('date');
+        const timeSelect = document.getElementById('time');
+        const loadingDiv = document.getElementById('loadingSlots');
 
-    const bookingTypeRadios = document.querySelectorAll('input[name="booking_type"]');
-    const packageRadios = document.querySelectorAll('#packagesGrid input[name="booking_option"]');
-    const extraServiceCheckboxes = document.querySelectorAll('.extra-service');
-    const totalPriceSpan = document.getElementById('totalPrice');
-    const dateInput = document.getElementById('date');
-    const timeSelect = document.getElementById('time');
-    const loadingDiv = document.getElementById('loadingSlots');
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlPackageId = urlParams.get('package_id');
+        const urlPackageName = urlParams.get('package_name');
 
-    // Параметры из URL (для перехода с детальной страницы пакета)
-    const urlParams = new URLSearchParams(window.location.search);
-    let urlPackageId = urlParams.get('package_id');
-    let urlPackageName = urlParams.get('package_name');
-    let urlPackagePrice = urlParams.get('package_price');
+        let modelPackagePrice = null;
+        {% if selected_package_price %}
+        modelPackagePrice = {{ selected_package_price }};
+        {% endif %}
 
-    // Переменные для выбранного пакета
-    let selectedPackagePrice = 0;
-    let selectedPackageId = null;
-    let selectedPackageDuration = 120;
-    let isUrlPackageActive = false;
+        let selectedPackagePrice = 0;
+        let selectedPackageId = null;
+        let selectedPackageDuration = 120;
 
-    // Функция пересчёта итоговой цены
-    function calculateTotal() {
-        let total = 0;
-        
-        // Если выбран тип бронирования (приоритет - если выбран тип, пакет не учитывается)
-        let typeSelected = false;
-        for (let radio of bookingTypeRadios) {
-            if (radio.checked) {
-                const div = radio.closest('.booking-type-item');
-                total += parseInt(div.dataset.price) || 0;
-                typeSelected = true;
-                break;
-            }
-        }
-        
-        // Цена пакета добавляется ТОЛЬКО если не выбран тип бронирования
-        if (!typeSelected) {
-            // Пакет из URL (если активен и не сброшен)
-            if (isUrlPackageActive && urlPackagePrice) {
-                total += parseInt(urlPackagePrice) || 0;
+        function calculateTotal() {
+            let total = 0;
+            
+            for (let radio of bookingTypeRadios) {
+                if (radio.checked) {
+                    const div = radio.closest('.booking-type-item');
+                    total += parseInt(div.dataset.price) || 0;
+                    break;
+                }
             }
             
-            // Пакет из списка
             for (let radio of packageRadios) {
                 if (radio.checked) {
                     const div = radio.closest('.booking-type-item');
@@ -802,71 +763,40 @@
                     break;
                 }
             }
-        }
-        
-        // Цена дополнительных услуг
-        for (let checkbox of extraServiceCheckboxes) {
-            if (checkbox.checked) {
-                total += parseInt(checkbox.dataset.price) || 0;
-            }
-        }
-        
-        if (totalPriceSpan) totalPriceSpan.textContent = total;
-    }
-
-    // Сброс выбора пакета из URL
-    function resetUrlPackage() {
-        if (isUrlPackageActive) {
-            isUrlPackageActive = false;
-            urlPackageId = null;
-            urlPackageName = null;
-            urlPackagePrice = null;
             
-            // Снимаем подсветку с пакета в списке
-            for (let packageItem of document.querySelectorAll('#packagesGrid .booking-type-item')) {
-                packageItem.classList.remove('selected');
+            for (let checkbox of extraServiceCheckboxes) {
+                if (checkbox.checked) {
+                    total += parseInt(checkbox.dataset.price) || 0;
+                }
             }
             
-            calculateTotal();
+            if (totalPriceSpan) totalPriceSpan.textContent = total;
         }
-    }
 
-    // Подсветка выбранного типа бронирования
-    function updateSelectedBookingType() {
-        const items = document.querySelectorAll('#bookingTypes .booking-type-item');
-        for (let item of items) {
-            const radio = item.querySelector('input');
-            if (radio && radio.checked) {
-                item.classList.add('selected');
-            } else {
-                item.classList.remove('selected');
+        function updateSelectedBookingType() {
+            const items = document.querySelectorAll('#bookingTypes .booking-type-item');
+            for (let item of items) {
+                const radio = item.querySelector('input');
+                if (radio && radio.checked) {
+                    item.classList.add('selected');
+                } else {
+                    item.classList.remove('selected');
+                }
             }
         }
-    }
 
-    // Подсветка выбранного пакета
-    function updateSelectedPackage() {
-        const items = document.querySelectorAll('#packagesGrid .booking-type-item');
-        for (let item of items) {
-            const radio = item.querySelector('input');
-            if (radio && radio.checked) {
-                item.classList.add('selected');
-            } else {
-                item.classList.remove('selected');
+        function updateSelectedPackage() {
+            const items = document.querySelectorAll('#packagesGrid .booking-type-item');
+            for (let item of items) {
+                const radio = item.querySelector('input');
+                if (radio && radio.checked) {
+                    item.classList.add('selected');
+                } else {
+                    item.classList.remove('selected');
+                }
             }
         }
-    }
 
-    // Если перешли по ссылке с пакетом (с детальной страницы)
-    if (urlPackageId || urlPackagePrice) {
-        console.log('Переход по ссылке с пакетом:', urlPackageName, urlPackagePrice);
-        
-        // Активируем пакет из URL
-        isUrlPackageActive = true;
-        selectedPackagePrice = parseInt(urlPackagePrice) || 0;
-        selectedPackageId = urlPackageId ? parseInt(urlPackageId) : null;
-        
-        // Находим и отмечаем чекбокс соответствующего пакета в списке
         if (urlPackageName) {
             for (let packageItem of document.querySelectorAll('#packagesGrid .booking-type-item')) {
                 const label = packageItem.querySelector('label');
@@ -874,357 +804,282 @@
                     const radio = packageItem.querySelector('input');
                     if (radio) {
                         radio.checked = true;
+                        selectedPackageId = packageItem.dataset.id;
+                        selectedPackagePrice = parseInt(packageItem.dataset.price) || 0;
+                        selectedPackageDuration = parseInt(packageItem.dataset.duration) || 120;
                         packageItem.classList.add('selected');
                     }
                 }
             }
         }
-        
-        // Снимаем выбор со всех типов бронирования
-        for (let radio of bookingTypeRadios) {
-            radio.checked = false;
-        }
-        updateSelectedBookingType();
-    }
 
-    // Загрузка доступных слотов
         async function loadAvailableSlots() {
-        if (!dateInput) return;
-        
-        const selectedDate = dateInput.value;
-        
-        if (!selectedDate) {
-            if (timeSelect) timeSelect.innerHTML = '<option value="">Сначала выберите дату</option>';
-            return;
-        }
-        
-        if (loadingDiv) loadingDiv.style.display = 'block';
-        if (timeSelect) {
-            timeSelect.innerHTML = '<option value="">Загрузка...</option>';
-            timeSelect.disabled = true;
-        }
-        
-        try {
-            const response = await fetch(`/booking/get-available-slots/?date=${selectedDate}`);
-            const data = await response.json();
-            
-            console.log('Получены слоты от сервера:', data);
-            
+            if (!dateInput) return;
+            const selectedDate = dateInput.value;
+            if (!selectedDate) {
+                if (timeSelect) timeSelect.innerHTML = '<option value="">Сначала выберите дату</option>';
+                return;
+            }
+            if (loadingDiv) loadingDiv.style.display = 'block';
             if (timeSelect) {
-                timeSelect.innerHTML = '<option value="">Выберите время</option>';
-                
-                if (data.slots && data.slots.length > 0) {
-                    // Получаем текущее время для фильтрации на клиенте
-                    const now = new Date();
-                    const selectedDateObj = new Date(selectedDate);
-                    const today = new Date();
-                    const isToday = selectedDateObj.toDateString() === today.toDateString();
-                    
-                    let availableCount = 0;
-                    
-                    for (let slot of data.slots) {
-                        // Фильтрация прошедших слотов для сегодняшнего дня
-                        if (isToday) {
-                            const slotHour = parseInt(slot.split(':')[0]);
-                            const slotMinute = parseInt(slot.split(':')[1]) || 0;
-                            const currentHour = now.getHours();
-                            const currentMinute = now.getMinutes();
-                            
-                            // Пропускаем слоты, которые уже прошли
-                            if (slotHour < currentHour || (slotHour === currentHour && slotMinute < currentMinute)) {
-                                console.log(`Пропущен прошедший слот: ${slot}`);
-                                continue;
+                timeSelect.innerHTML = '<option value="">Загрузка...</option>';
+                timeSelect.disabled = true;
+            }
+            try {
+                const response = await fetch(`/booking/get-available-slots/?date=${selectedDate}`);
+                const data = await response.json();
+                if (timeSelect) {
+                    timeSelect.innerHTML = '<option value="">Выберите время</option>';
+                    if (data.slots && data.slots.length > 0) {
+                        const now = new Date();
+                        const selectedDateObj = new Date(selectedDate);
+                        const today = new Date();
+                        const isToday = selectedDateObj.toDateString() === today.toDateString();
+                        let availableCount = 0;
+                        for (let slot of data.slots) {
+                            if (isToday) {
+                                const slotHour = parseInt(slot.split(':')[0]);
+                                const slotMinute = parseInt(slot.split(':')[1]) || 0;
+                                const currentHour = now.getHours();
+                                const currentMinute = now.getMinutes();
+                                if (slotHour < currentHour || (slotHour === currentHour && slotMinute < currentMinute)) {
+                                    continue;
+                                }
                             }
+                            const option = document.createElement('option');
+                            option.value = slot;
+                            option.textContent = slot;
+                            timeSelect.appendChild(option);
+                            availableCount++;
                         }
-                        
-                        const option = document.createElement('option');
-                        option.value = slot;
-                        option.textContent = slot;
-                        timeSelect.appendChild(option);
-                        availableCount++;
-                    }
-                    
-                    if (availableCount > 0) {
-                        timeSelect.disabled = false;
-                        console.log(`Доступно ${availableCount} слотов`);
+                        if (availableCount > 0) {
+                            timeSelect.disabled = false;
+                        } else {
+                            timeSelect.innerHTML = '<option value="">Нет свободного времени</option>';
+                            timeSelect.disabled = true;
+                        }
                     } else {
                         timeSelect.innerHTML = '<option value="">Нет свободного времени</option>';
                         timeSelect.disabled = true;
                     }
-                } else {
-                    timeSelect.innerHTML = '<option value="">Нет свободного времени</option>';
-                    timeSelect.disabled = true;
-                }
-            }
-        } catch (error) {
-            console.error('Ошибка загрузки слотов:', error);
-            if (timeSelect) {
-                timeSelect.innerHTML = '<option value="">Ошибка загрузки</option>';
-                timeSelect.disabled = true;
-            }
-        } finally {
-            if (loadingDiv) loadingDiv.style.display = 'none';
-        }
-    }
-
-    // Установка минимальной даты
-    const today = new Date().toISOString().split('T')[0];
-    if (dateInput) dateInput.min = today;
-
-    // Слушатели для типов бронирования
-    for (let radio of bookingTypeRadios) {
-        radio.addEventListener('change', function() {
-            if (this.checked) {
-                // Снимаем выбор со всех пакетов (и из URL, и из списка)
-                for (let pkg of packageRadios) {
-                    pkg.checked = false;
-                }
-                updateSelectedPackage();
-                selectedPackageId = null;
-                selectedPackagePrice = 0;
-                
-                // Сбрасываем пакет из URL
-                resetUrlPackage();
-            }
-            calculateTotal();
-            updateSelectedBookingType();
-        });
-    }
-
-    // Слушатели для пакетов (в списке на странице)
-    for (let radio of packageRadios) {
-        radio.addEventListener('change', function() {
-            if (this.checked) {
-                // Снимаем выбор со всех типов бронирования
-                for (let typeRadio of bookingTypeRadios) {
-                    typeRadio.checked = false;
-                }
-                updateSelectedBookingType();
-                
-                // Сбрасываем пакет из URL
-                resetUrlPackage();
-                
-                // Получаем данные пакета из списка
-                const div = this.closest('.booking-type-item');
-                selectedPackageId = div.dataset.id;
-                selectedPackagePrice = parseInt(div.dataset.price) || 0;
-                selectedPackageDuration = parseInt(div.dataset.duration) || 120;
-            } else {
-                selectedPackageId = null;
-                selectedPackagePrice = 0;
-            }
-            calculateTotal();
-            updateSelectedPackage();
-        });
-    }
-
-    // Слушатели для дополнительных услуг
-    for (let checkbox of extraServiceCheckboxes) {
-        checkbox.addEventListener('change', calculateTotal);
-    }
-
-    // Слушатель для выбора даты
-    if (dateInput) {
-        dateInput.addEventListener('change', loadAvailableSlots);
-    }
-
-    // Отправка формы
-    const bookingForm = document.getElementById('bookingForm');
-    if (bookingForm) {
-        bookingForm.addEventListener('submit', async function (e) {
-            e.preventDefault();
-
-            const selectedType = document.querySelector('input[name="booking_type"]:checked');
-            const selectedPackage = document.querySelector('#packagesGrid input[name="booking_option"]:checked');
-            const selectedDate = dateInput ? dateInput.value : '';
-            const selectedTime = timeSelect ? timeSelect.value : '';
-            const clientName = document.getElementById('clientName') ? document.getElementById('clientName').value : '';
-            const clientEmail = document.getElementById('clientEmail') ? document.getElementById('clientEmail').value : '';
-            const clientPhone = document.getElementById('clientPhone') ? document.getElementById('clientPhone').value : '';
-
-            if (!clientName || !clientEmail || !clientPhone) {
-                alert('Пожалуйста, заполните все контактные данные');
-                return;
-            }
-
-            if (!selectedDate || !selectedTime) {
-                alert('Пожалуйста, выберите дату и время');
-                return;
-            }
-
-            // Определяем, что выбрано: тип бронирования или пакет
-            let finalPackageId = null;
-            let finalBookingTypeId = null;
-            
-            if (selectedType) {
-                finalBookingTypeId = selectedType.value;
-            } else if (selectedPackage) {
-                finalPackageId = selectedPackage.value.replace('package_', '');
-            } else if (isUrlPackageActive && urlPackageId) {
-                finalPackageId = urlPackageId;
-            } else {
-                alert('Пожалуйста, выберите тип бронирования или пакет');
-                return;
-            }
-
-            const selectedServices = [];
-            for (let checkbox of extraServiceCheckboxes) {
-                if (checkbox.checked) {
-                    selectedServices.push(checkbox.value);
-                }
-            }
-
-            // Получаем итоговую цену
-            let totalPrice = 0;
-            if (selectedType) {
-                const div = selectedType.closest('.booking-type-item');
-                totalPrice = parseInt(div.dataset.price) || 0;
-            } else if (selectedPackage) {
-                const div = selectedPackage.closest('.booking-type-item');
-                totalPrice = parseInt(div.dataset.price) || 0;
-            } else if (isUrlPackageActive && urlPackagePrice) {
-                totalPrice = parseInt(urlPackagePrice) || 0;
-            }
-            
-            // Добавляем дополнительные услуги
-            for (let checkbox of extraServiceCheckboxes) {
-                if (checkbox.checked) {
-                    totalPrice += parseInt(checkbox.dataset.price) || 0;
-                }
-            }
-
-            const bookingData = {
-                client_name: clientName,
-                client_email: clientEmail,
-                client_phone: clientPhone,
-                booking_type_id: finalBookingTypeId,
-                package_id: finalPackageId,
-                date: selectedDate,
-                time: selectedTime,
-                extra_services: selectedServices,
-                total_price: totalPrice
-            };
-
-            const messageDiv = document.getElementById('message');
-
-            try {
-                const response = await fetch('/booking/submit-booking/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
-                    },
-                    body: JSON.stringify(bookingData)
-                });
-
-                const result = await response.json();
-
-                if (messageDiv) {
-                    messageDiv.style.display = 'block';
-                    if (result.status === 'ok') {
-                        messageDiv.className = 'message success';
-                        messageDiv.innerHTML = '<i class="fas fa-check-circle"></i> ✅ Бронирование успешно создано! Мы свяжемся с вами для подтверждения.';
-                        bookingForm.reset();
-                        calculateTotal();
-                        if (dateInput && dateInput.value) {
-                            loadAvailableSlots();
-                        }
-                        setTimeout(() => {
-                            messageDiv.style.display = 'none';
-                        }, 5000);
-                    } else {
-                        messageDiv.className = 'message error';
-                        messageDiv.innerHTML = '<i class="fas fa-exclamation-circle"></i> ❌ ' + (result.error || 'Ошибка');
-                    }
                 }
             } catch (error) {
                 console.error('Ошибка:', error);
-                if (messageDiv) {
-                    messageDiv.style.display = 'block';
-                    messageDiv.className = 'message error';
-                    messageDiv.innerHTML = '<i class="fas fa-exclamation-circle"></i> ❌ Ошибка сервера. Попробуйте позже.';
+                if (timeSelect) {
+                    timeSelect.innerHTML = '<option value="">Ошибка загрузки</option>';
+                    timeSelect.disabled = true;
                 }
-            }
-            if (messageDiv) messageDiv.scrollIntoView({ behavior: 'smooth' });
-        });
-    }
-
-    // Начальный расчёт и подсветка
-    calculateTotal();
-    updateSelectedBookingType();
-    updateSelectedPackage();
-
-    // Navbar scroll
-    const navbar = document.getElementById('navbar');
-    window.addEventListener('scroll', () => {
-        if (navbar) {
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
+            } finally {
+                if (loadingDiv) loadingDiv.style.display = 'none';
             }
         }
-    });
 
-    // Mobile menu
-    const mobileBtn = document.getElementById('mobileMenuBtn');
-    const navLinks = document.getElementById('navLinks');
+        const today = new Date().toISOString().split('T')[0];
+        if (dateInput) dateInput.min = today;
 
-    if (mobileBtn && navLinks) {
-        mobileBtn.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
+        for (let radio of bookingTypeRadios) {
+            radio.addEventListener('change', function() {
+                if (this.checked) {
+                    for (let pkg of packageRadios) {
+                        pkg.checked = false;
+                    }
+                    updateSelectedPackage();
+                    selectedPackageId = null;
+                    selectedPackagePrice = 0;
+                }
+                calculateTotal();
+                updateSelectedBookingType();
+            });
+        }
+
+        for (let radio of packageRadios) {
+            radio.addEventListener('change', function() {
+                if (this.checked) {
+                    for (let typeRadio of bookingTypeRadios) {
+                        typeRadio.checked = false;
+                    }
+                    updateSelectedBookingType();
+                    const div = this.closest('.booking-type-item');
+                    selectedPackageId = div.dataset.id;
+                    selectedPackagePrice = parseInt(div.dataset.price) || 0;
+                    selectedPackageDuration = parseInt(div.dataset.duration) || 120;
+                } else {
+                    selectedPackageId = null;
+                    selectedPackagePrice = 0;
+                }
+                calculateTotal();
+                updateSelectedPackage();
+            });
+        }
+
+        for (let checkbox of extraServiceCheckboxes) {
+            checkbox.addEventListener('change', calculateTotal);
+        }
+
+        if (dateInput) {
+            dateInput.addEventListener('change', loadAvailableSlots);
+        }
+
+        const bookingForm = document.getElementById('bookingForm');
+        if (bookingForm) {
+            bookingForm.addEventListener('submit', async function (e) {
+                e.preventDefault();
+
+                const selectedType = document.querySelector('input[name="booking_type"]:checked');
+                const selectedPackage = document.querySelector('#packagesGrid input[name="booking_option"]:checked');
+                const selectedDate = dateInput ? dateInput.value : '';
+                const selectedTime = timeSelect ? timeSelect.value : '';
+                const clientName = document.getElementById('clientName') ? document.getElementById('clientName').value : '';
+                const clientEmail = document.getElementById('clientEmail') ? document.getElementById('clientEmail').value : '';
+                const clientPhone = document.getElementById('clientPhone') ? document.getElementById('clientPhone').value : '';
+
+                if (!clientName || !clientEmail || !clientPhone) {
+                    alert('Пожалуйста, заполните все контактные данные');
+                    return;
+                }
+
+                if (!selectedDate || !selectedTime) {
+                    alert('Пожалуйста, выберите дату и время');
+                    return;
+                }
+
+                let finalPackageId = null;
+                let finalBookingTypeId = null;
+                
+                if (selectedType) {
+                    finalBookingTypeId = selectedType.value;
+                } else if (selectedPackage) {
+                    finalPackageId = selectedPackage.value.replace('package_', '');
+                } else {
+                    alert('Пожалуйста, выберите тип бронирования или пакет');
+                    return;
+                }
+
+                const selectedServices = [];
+                for (let checkbox of extraServiceCheckboxes) {
+                    if (checkbox.checked) {
+                        selectedServices.push(checkbox.value);
+                    }
+                }
+
+                const bookingData = {
+                    client_name: clientName,
+                    client_email: clientEmail,
+                    client_phone: clientPhone,
+                    booking_type_id: finalBookingTypeId,
+                    package_id: finalPackageId,
+                    date: selectedDate,
+                    time: selectedTime,
+                    extra_services: selectedServices,
+                    total_price: parseInt(totalPriceSpan ? totalPriceSpan.textContent : 0)
+                };
+
+                const messageDiv = document.getElementById('message');
+
+                try {
+                    const response = await fetch('/booking/submit-booking/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                        },
+                        body: JSON.stringify(bookingData)
+                    });
+
+                    const result = await response.json();
+
+                    if (messageDiv) {
+                        messageDiv.style.display = 'block';
+                        if (result.status === 'ok') {
+                            messageDiv.className = 'message success';
+                            messageDiv.innerHTML = '<i class="fas fa-check-circle"></i> ✅ Бронирование успешно создано! Мы свяжемся с вами для подтверждения.';
+                            bookingForm.reset();
+                            calculateTotal();
+                            if (dateInput && dateInput.value) {
+                                loadAvailableSlots();
+                            }
+                            setTimeout(() => {
+                                messageDiv.style.display = 'none';
+                            }, 5000);
+                        } else {
+                            messageDiv.className = 'message error';
+                            messageDiv.innerHTML = '<i class="fas fa-exclamation-circle"></i> ❌ ' + (result.error || 'Ошибка');
+                        }
+                    }
+                } catch (error) {
+                    console.error('Ошибка:', error);
+                    if (messageDiv) {
+                        messageDiv.style.display = 'block';
+                        messageDiv.className = 'message error';
+                        messageDiv.innerHTML = '<i class="fas fa-exclamation-circle"></i> ❌ Ошибка сервера. Попробуйте позже.';
+                    }
+                }
+                if (messageDiv) messageDiv.scrollIntoView({ behavior: 'smooth' });
+            });
+        }
+
+        calculateTotal();
+        updateSelectedBookingType();
+        updateSelectedPackage();
+
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (navbar) {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            }
         });
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
+
+        const mobileBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.getElementById('navLinks');
+
+        if (mobileBtn && navLinks) {
+            mobileBtn.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navLinks.classList.remove('active');
+                });
+            });
+        }
+
+        document.querySelectorAll('#bookingTypes .booking-type-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                const radio = this.querySelector('input[type="radio"]');
+                if (radio && !radio.checked) {
+                    radio.checked = true;
+                    const changeEvent = new Event('change', { bubbles: true });
+                    radio.dispatchEvent(changeEvent);
+                }
             });
         });
-    }
+        
+        document.querySelectorAll('#packagesGrid .booking-type-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                const radio = this.querySelector('input[type="radio"]');
+                if (radio && !radio.checked) {
+                    radio.checked = true;
+                    const changeEvent = new Event('change', { bubbles: true });
+                    radio.dispatchEvent(changeEvent);
+                }
+            });
+        });
 
-    console.log('Скрипт загружен');
-    console.log('Пакет из URL:', urlPackageId, urlPackageName, urlPackagePrice);
-
-     document.querySelectorAll('#bookingTypes .booking-type-item').forEach(item => {
-        item.addEventListener('click', function(e) {
-            // Находим radio внутри этого блока
-            const radio = this.querySelector('input[type="radio"]');
-            if (radio && !radio.checked) {
-                radio.checked = true;
-                // Триггерим событие change
-                const changeEvent = new Event('change', { bubbles: true });
-                radio.dispatchEvent(changeEvent);
-            }
+        document.querySelectorAll('.service-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                const checkbox = this.querySelector('input[type="checkbox"]');
+                if (checkbox) {
+                    checkbox.checked = !checkbox.checked;
+                    const changeEvent = new Event('change', { bubbles: true });
+                    checkbox.dispatchEvent(changeEvent);
+                }
+            });
         });
-    });
-    
-    // Для пакетов услуг
-    document.querySelectorAll('#packagesGrid .booking-type-item').forEach(item => {
-        item.addEventListener('click', function(e) {
-            // Находим radio внутри этого блока
-            const radio = this.querySelector('input[type="radio"]');
-            if (radio && !radio.checked) {
-                radio.checked = true;
-                // Триггерим событие change
-                const changeEvent = new Event('change', { bubbles: true });
-                radio.dispatchEvent(changeEvent);
-            }
-        });
-    });
-    
-    // Для дополнительных услуг (чекбоксы)
-    document.querySelectorAll('.service-item').forEach(item => {
-        item.addEventListener('click', function(e) {
-            // Находим checkbox внутри этого блока
-            const checkbox = this.querySelector('input[type="checkbox"]');
-            if (checkbox) {
-                checkbox.checked = !checkbox.checked;
-                // Триггерим событие change
-                const changeEvent = new Event('change', { bubbles: true });
-                checkbox.dispatchEvent(changeEvent);
-            }
-        });
-    });
-</script>
+    </script>
 </body>
 
 </html>
